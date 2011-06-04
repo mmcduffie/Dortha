@@ -14,6 +14,12 @@ class TokenStack
 		end
 		output
 	end
+	def lineCount=(lineCount)
+		@lineCount = lineCount
+	end
+	def lineCount
+		@lineCount
+	end
 	def lineNumbers
 		@lineNumbers
 	end

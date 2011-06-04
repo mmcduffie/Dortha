@@ -10,6 +10,11 @@ class TokenStackTest < Test::Unit::TestCase
 		@tokenStack.pushToken(2,"bar")
 		assert_equal("Token: foo Line: 1, Token: bar Line: 2",@tokenStack.inspect,"Output of inspect not what we wanted.")
 	end
+	def test_lineCount
+		@tokenStack.lineCount = 3
+		test = @tokenStack.lineCount
+		assert_equal(3,test,"lineCount incorrect")
+	end
 	def test_lineNumbers
 		tokenStackClass = @tokenStack.lineNumbers.class
 		assert(tokenStackClass = "Array")
