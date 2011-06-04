@@ -11,6 +11,9 @@ class DocumentTest < Test::Unit::TestCase
 		assert(@document.kind_of?(Array)) # Document is supposed to be a subclass of Array.
 		assert_not_nil(@document.tokenStack) # Should have a tokenStack to work with.
 	end
+	def test_lineCount
+		assert_equal(0,@document.lineCount,"lineCount is supposed to start at zero.")
+	end
 	def test_parse
 		@document.parse
 		testLineNumbers = @document.tokenStack.lineNumbers
@@ -19,6 +22,7 @@ class DocumentTest < Test::Unit::TestCase
 		testTokens = @document.tokenStack.tokens
 		testToken = testTokens[3] # The fourth token.
 		assert_equal("\"nextTest2\"",testToken,"The fourth token should be \"nextTest2\".") # Line numbers start at zero.
+		assert_equal(3,@document.lineCount,"lineCount should be three.")
 	end
 	def test_stripSingleToken
 		testLine = ['Token']

@@ -7,6 +7,9 @@ class Document < Array
 	def tokenStack
 		@tokenStack
 	end
+	def lineCount
+		@lineCount
+	end
 	def parse
 		self.each_with_index do |line,lineNumber|
 			line.lstrip! # Strip leading whitespace on each line.
@@ -21,6 +24,7 @@ class Document < Array
 					stripSingleToken(lineNumber)
 				end
 			end
+			@lineCount += 1
 		end
 	end
 	def stripSingleToken(lineNumber)
