@@ -18,7 +18,6 @@ ARGF.each_line do |line|
 	end
 end
 
-document.stripLeadingWhiteSpace
 document.parse
 test = document.tokenStack.inspect
 puts test
