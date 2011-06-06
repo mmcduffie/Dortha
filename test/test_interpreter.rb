@@ -4,7 +4,7 @@ require 'test/unit'
 
 class InterpreterTest < Test::Unit::TestCase
 	def setup # Provided document should be an array representing lines from the source file, with newlines removed.
-		testArray = ["  test1 nexttTest1","test2 \"nextTest2\"","test3 [nextTest3]"] # Notice leading spaces.
+		testArray = ["test1 middleMethod nexttTest1","test2 \"nextTest2\"","test3 [nextTest3]"] # Notice multiple methods per line.
 		@document = Document.new(testArray)
 	end
 	def test_interpret
