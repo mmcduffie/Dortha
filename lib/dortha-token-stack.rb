@@ -39,6 +39,10 @@ class TokenStack
 		lastLineNumber = @lineNumbers.pop
 		lastToken = @tokens.pop
 		lastReceiver = @reciever.pop
-		token = Hash["lineNumber" => lastLineNumber, "value" => lastToken, "receiver" => lastReceiver]
+		if (lastLineNumber && lastToken && lastReceiver).nil?
+			return nil
+		else
+			token = Hash["lineNumber" => lastLineNumber, "value" => lastToken, "receiver" => lastReceiver]
+		end
 	end
 end

@@ -47,5 +47,7 @@ class TokenStackTest < Test::Unit::TestCase
 		assert_equal({"lineNumber" => 2, "value" => "bar", "receiver" => false},testHash,"Token hash not what we expected.") # Should be hash with one token.
 		testHash = @tokenStack.popToken
 		assert_equal({"lineNumber" => 1, "value" => "foo", "receiver" => false},testHash,"Token hash not what we expected.") # Should be hash with one token.
+		testHash = @tokenStack.popToken
+		assert_nil(testHash,"Token hash not what we expected.") # Trying to pop empty stack should return nil just like Array does.
 	end
 end
