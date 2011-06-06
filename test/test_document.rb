@@ -23,6 +23,8 @@ class DocumentTest < Test::Unit::TestCase
 		testToken = testTokens[3] # The fourth token.
 		assert_equal("\"nextTest2\"",testToken,"The fourth token should be \"nextTest2\".") # Line numbers start at zero.
 		assert_equal(3,@document.lineCount,"lineCount should be three.")
+		testToken = @document.tokenStack.popToken
+		assert_equal({"lineNumber" => 2, "value" => "[nextTest3]", "receiver" => true},testToken,"receiver must be true.")
 	end
 	def test_stripSingleToken
 		testLine = ['Token']

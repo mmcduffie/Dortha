@@ -2,12 +2,13 @@ class TokenStack
 	def initialize
 		@lineNumbers = []
 		@tokens = []
+		@reciever = []
 	end
 	def inspect
 		totalTokens = @tokens.length
 		output = ""
 		totalTokens.times do |index|
-			output << "Token: #{@tokens[index]} Line: #{@lineNumbers[index]}"
+			output << "Token: #{@tokens[index]} Line: #{@lineNumbers[index]} Receiver: #{@reciever[index]}"
 			if index != totalTokens - 1
 				output << ", "
 			end
@@ -26,13 +27,18 @@ class TokenStack
 	def tokens
 		@tokens
 	end
+	def markToken # markToken marks whatever the last token is as being a reciever.
+		@reciever[@reciever.length - 1] = true
+	end
 	def pushToken(lineNumber,token)
 		@lineNumbers.push(lineNumber)
 		@tokens.push(token)
+		@reciever.push(false)
 	end
 	def popToken
 		lastLineNumber = @lineNumbers.pop
 		lastToken = @tokens.pop
-		token = Hash["lineNumber" => lastLineNumber, "value" => lastToken]
+		lastReceiver = @reciever.pop
+		token = Hash["lineNumber" => lastLineNumber, "value" => lastToken, "receiver" => lastReceiver]
 	end
 end

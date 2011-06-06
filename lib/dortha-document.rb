@@ -24,6 +24,7 @@ class Document < Array
 					stripSingleToken(lineNumber)
 				end
 			end
+			@tokenStack.markToken
 			@lineCount += 1
 		end
 	end

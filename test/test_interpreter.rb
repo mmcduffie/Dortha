@@ -8,8 +8,9 @@ class InterpreterTest < Test::Unit::TestCase
 		@document = Document.new(testArray)
 	end
 	def test_interpret
+		@document.parse
+		lineCount = @document.lineCount
 		@interpreter = Interpreter.new
-		stack = @document.tokenStack
-		@interpreter.interpret(stack)
+		@interpreter.interpret(@document.tokenStack)
 	end
 end

@@ -8,7 +8,7 @@ class TokenStackTest < Test::Unit::TestCase
 	def test_inspect
 		@tokenStack.pushToken(1,"foo")
 		@tokenStack.pushToken(2,"bar")
-		assert_equal("Token: foo Line: 1, Token: bar Line: 2",@tokenStack.inspect,"Output of inspect not what we wanted.")
+		assert_equal("Token: foo Line: 1 Receiver: false, Token: bar Line: 2 Receiver: false",@tokenStack.inspect,"Output of inspect not what we wanted.")
 	end
 	def test_lineCount
 		@tokenStack.lineCount = 3
@@ -18,6 +18,15 @@ class TokenStackTest < Test::Unit::TestCase
 	def test_lineNumbers
 		tokenStackClass = @tokenStack.lineNumbers.class
 		assert(tokenStackClass = "Array")
+	end
+	def test_markToken
+		@tokenStack.pushToken(1,"foo")
+		@tokenStack.pushToken(1,"bar")
+		@tokenStack.markToken
+		testHash = @tokenStack.popToken
+		assert_equal({"lineNumber" => 1, "value" => "bar", "receiver" => true},testHash,"Token hash not what we expected.")
+		testHash = @tokenStack.popToken
+		assert_equal({"lineNumber" => 1, "value" => "foo", "receiver" => false},testHash,"A token that isn't last on the line should be false.")
 	end
 	def test_pushToken
 		@tokenStack.pushToken(1,"foo")
@@ -35,8 +44,8 @@ class TokenStackTest < Test::Unit::TestCase
 		@tokenStack.pushToken(1,"foo")
 		@tokenStack.pushToken(2,"bar")
 		testHash = @tokenStack.popToken
-		assert_equal({"lineNumber" => 2, "value" => "bar"},testHash,"Token hash not what we expected.") # Should be hash with one token.
+		assert_equal({"lineNumber" => 2, "value" => "bar", "receiver" => false},testHash,"Token hash not what we expected.") # Should be hash with one token.
 		testHash = @tokenStack.popToken
-		assert_equal({"lineNumber" => 1, "value" => "foo"},testHash,"Token hash not what we expected.") # Should be hash with one token.
+		assert_equal({"lineNumber" => 1, "value" => "foo", "receiver" => false},testHash,"Token hash not what we expected.") # Should be hash with one token.
 	end
 end
