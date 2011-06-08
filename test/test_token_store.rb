@@ -31,4 +31,20 @@ class TokenStoreTest < Test::Unit::TestCase
 		testToken = testLine[1] # Notice this is the second token on line 3.
 		assert_equal("test2",testToken,"Token not what we expected.")
 	end
+	def test_receiver
+		@store.addToken("test1",3)
+		@store.addToken("test2",3)
+		assert_raise(RuntimeError) do
+			notValid = @store.receiver(1)
+		end
+		receiver = @store.receiver(3)
+		assert_equal("test2",receiver,"Receiver not what we expected.")
+	end
+	def test_messages
+		@store.addToken("test1",3)
+		@store.addToken("test2",3)
+		@store.addToken("test3",3)
+		messages = @store.messages(3)
+		assert_equal(["test1","test2"],messages,"Messages not what we expected.")
+	end
 end

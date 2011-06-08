@@ -21,4 +21,20 @@ class TokenStore
 		lineArray = @tokenStore[line]
 		lineArray.push(value)
 	end
+	def receiver(line)
+		receiver = nil
+		if @tokenStore[line]
+			lineArray = @tokenStore[line]
+			receiver = lineArray [lineArray.length - 1]
+		else
+			raise "The line provided does not exist."
+		end
+		return receiver
+	end
+	def messages(line)
+		lineArray = @tokenStore[line]
+		temp = lineArray.clone
+		temp.pop
+		temp
+	end
 end
