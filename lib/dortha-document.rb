@@ -1,12 +1,8 @@
 class Document < Array
 	def initialize(sourceFile)
 		super # Call ruby's built-in Array initializer.
-		@tokenStack = TokenStack.new
 		@tokenStore = TokenStore.new
 		@lineCount = 0
-	end
-	def tokenStack
-		@tokenStack
 	end
 	def tokenStore
 		@tokenStore
@@ -28,8 +24,7 @@ class Document < Array
 					stripSingleToken(lineNumber)
 				end
 			end
-			#@tokenStack.markToken
-			#@lineCount += 1
+			@lineCount += 1
 		end
 	end
 	def stripSingleToken(lineNumber)

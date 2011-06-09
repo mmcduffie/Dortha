@@ -11,6 +11,6 @@ class InterpreterTest < Test::Unit::TestCase
 		@document.parse
 		lineCount = @document.lineCount
 		@interpreter = Interpreter.new
-		@interpreter.interpret(@document.tokenStack)
+		@interpreter.interpret(@document.tokenStore)
 	end
 end

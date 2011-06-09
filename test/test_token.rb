@@ -4,7 +4,6 @@ require 'test/unit'
 
 class TokenTest < Test::Unit::TestCase
 	def setup
-		@stack = TokenStack.new
 		@store = TokenStore.new
 		@token = Token.new(@stack,@store)
 	end
@@ -20,16 +19,12 @@ class TokenTest < Test::Unit::TestCase
 		@token.lineNumber = 1
 		@token.value = "foo"
 		@token.save
-		lineNumbers = @stack.lineNumbers
-		tokens = @stack.tokens
-		assert_equal(1,lineNumbers[0],"Line number is incorrect")
-		assert_equal("foo",tokens[0],"Token value is incorrect")
+		testToken = @store.tokenStore[1][0] # Line 2, Token 1.
+		assert_equal("foo",testToken,"The token should be 'foo'")
 		@token.lineNumber = 2
 		@token.value = "bar"
 		@token.save
-		lineNumbers = @stack.lineNumbers
-		tokens = @stack.tokens
-		assert_equal(2,lineNumbers[1],"Line number is incorrect")
-		assert_equal("bar",tokens[1],"Token value is incorrect")
+		testToken = @store.tokenStore[2][0] # Line 3, Token 1.
+		assert_equal("bar",testToken,"The token should be 'bar'")
 	end
 end
