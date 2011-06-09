@@ -2,10 +2,14 @@ class Document < Array
 	def initialize(sourceFile)
 		super # Call ruby's built-in Array initializer.
 		@tokenStack = TokenStack.new
+		@tokenStore = TokenStore.new
 		@lineCount = 0
 	end
 	def tokenStack
 		@tokenStack
+	end
+	def tokenStore
+		@tokenStore
 	end
 	def lineCount
 		@lineCount
@@ -24,14 +28,14 @@ class Document < Array
 					stripSingleToken(lineNumber)
 				end
 			end
-			@tokenStack.markToken
-			@lineCount += 1
+			#@tokenStack.markToken
+			#@lineCount += 1
 		end
 	end
 	def stripSingleToken(lineNumber)
 		tokenLength = self[lineNumber].length # Find end of Token.
 		tokenString = self[lineNumber].slice!(0,tokenLength) # Remove token from line.
-		token = Token.new(@tokenStack) # Create a new Token.
+		token = Token.new(@tokenStack,@tokenStore) # Create a new Token.
 		token.lineNumber = lineNumber # Set it's line number.
 		token.value = tokenString # Set it's value.
 		token.save # Persist the token to the TokenStack.
@@ -45,7 +49,7 @@ class Document < Array
 		while self[lineNumber].match(/^\s/) # If characters after token are whitespace...
 			self[lineNumber].slice!(0) # Delete them.
 		end
-		token = Token.new(@tokenStack) # Create a new Token.
+		token = Token.new(@tokenStack,@tokenStore) # Create a new Token.
 		token.lineNumber = lineNumber # Set it's line number.
 		token.value = tokenString # Set it's value.
 		token.save # Persist the token to the TokenStack.
@@ -58,7 +62,7 @@ class Document < Array
 			self[lineNumber].slice!(0) # Delete them.
 		end
 		tokenString = '"' + tokenString # Put a quote back on the front of the string for storage.
-		token = Token.new(@tokenStack) # Create a new Token.
+		token = Token.new(@tokenStack,@tokenStore) # Create a new Token.
 		token.lineNumber = lineNumber # Set it's line number.
 		token.value = tokenString # Set it's value.
 		token.save # Persist the token to the TokenStack.
@@ -71,7 +75,7 @@ class Document < Array
 			self[lineNumber].slice!(0) # Delete them.
 		end
 		tokenString = '[' + tokenString # Put a braket back on the front of the string for storage.
-		token = Token.new(@tokenStack) # Create a new Token.
+		token = Token.new(@tokenStack,@tokenStore) # Create a new Token.
 		token.lineNumber = lineNumber # Set it's line number.
 		token.value = tokenString # Set it's value.
 		token.save # Persist the token to the TokenStack.

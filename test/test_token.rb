@@ -5,7 +5,8 @@ require 'test/unit'
 class TokenTest < Test::Unit::TestCase
 	def setup
 		@stack = TokenStack.new
-		@token = Token.new(@stack)
+		@store = TokenStore.new
+		@token = Token.new(@stack,@store)
 	end
 	def test_lineNumber
 		@token.lineNumber = 1

@@ -1,6 +1,7 @@
 class Token
-	def initialize(tokenStack)
+	def initialize(tokenStack,tokenStore)
 		@tokenStack = tokenStack
+		@tokenStore = tokenStore
 	end
 	def lineNumber=(lineNumber)
 		@lineNumber = lineNumber
@@ -16,5 +17,6 @@ class Token
 	end
 	def save
 		@tokenStack.pushToken(@lineNumber,@value)
+		@tokenStore.addToken(@value,@lineNumber)
 	end
 end
