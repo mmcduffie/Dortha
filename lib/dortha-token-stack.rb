@@ -27,9 +27,9 @@ class TokenStack
 	def tokens
 		@tokens
 	end
-	def markToken # markToken marks whatever the last token is as being a reciever.
-		@reciever[@reciever.length - 1] = true
-	end
+	#def markToken # markToken marks whatever the last token is as being a reciever.
+	#	@reciever[@reciever.length - 1] = true
+	#end
 	def pushToken(lineNumber,token)
 		@lineNumbers.push(lineNumber)
 		@tokens.push(token)
