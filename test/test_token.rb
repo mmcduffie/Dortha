@@ -1,5 +1,5 @@
 require '../lib/dortha-token.rb'
-require '../lib/dortha-token-stack.rb'
+require '../lib/dortha-token-store.rb'
 require 'test/unit'
 
 class TokenTest < Test::Unit::TestCase
