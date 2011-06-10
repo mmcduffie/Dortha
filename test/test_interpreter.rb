@@ -14,9 +14,9 @@ class InterpreterTest < Test::Unit::TestCase
 		@interpreter.interpret(@document.tokenStore,lineCount)
 	end
 	def test_call
-		message = "testMethod"
-		receiver = "testObject"
+		message = "methods"
+		receiver = Object.new # The receiver can be any ruby object.
 		testResponce = @interpreter.call(message,receiver)
-		assert_equal("testObject",testResponce,"The call method should always return the object it called.")
+		assert_equal(receiver,testResponce,"The call method should always return the object it called.")
 	end
 end

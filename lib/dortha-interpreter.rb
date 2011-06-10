@@ -8,6 +8,8 @@ class Interpreter
 		end
 	end
 	def call(message,receiver)
+		receiver ||= Module.const_get(receiver)
+		receiver.send(message)
 		return receiver
 	end
 end
