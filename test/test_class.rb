@@ -3,7 +3,7 @@ require 'test/unit'
 
 class KlassTest < Test::Unit::TestCase
 	def setup
-		@klass = Klass.new
+		@klass = Klass.new("klass")
 	end
 	def test_superClass
 		@klass.superClass = "foo"

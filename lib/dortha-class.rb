@@ -3,7 +3,8 @@
 # and syntax, it will be called "class".
 
 class Klass
-	def initialize
+	def initialize(name)
+		@name = name
 		@superClass = nil
 		@classMethods = []
 	end
