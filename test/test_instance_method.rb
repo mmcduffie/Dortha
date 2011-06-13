@@ -13,6 +13,7 @@ class InstanceMethodTest < Test::Unit::TestCase
 	def test_methodRegexp
 		test = @method.methodRegexp("foo")
 		assert_equal("foo",test,"When method name has no underscores, this should return what it recived.")
-		@method.methodRegexp("add _ to")
+		#@method.methodRegexp("add _ to")
+		@method.methodRegexp(" _ my face _ with")
 	end
 end
