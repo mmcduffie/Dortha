@@ -10,6 +10,11 @@ class KlassTest < Test::Unit::TestCase
 		test = @klass.superClass
 		assert_equal("foo",test,"Class should be what we set it to.")
 	end
+	def test_addInstanceMethod
+		@klass.addInstanceMethod("foo")
+		test = @klass.instanceMethods[0]
+		assert_equal("foo",test,"Class should have method we added to it.")
+	end
 	def test_addClassMethod
 		@klass.addClassMethod("foo")
 		test = @klass.classMethods[0]

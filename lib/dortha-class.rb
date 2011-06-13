@@ -7,12 +7,19 @@ class Klass
 		@name = name
 		@superClass = nil
 		@classMethods = []
+		@instaceMethods = []
 	end
 	def superClass
 		@superClass
 	end
 	def superClass=(superClass)
 		@superClass = superClass
+	end
+	def addInstanceMethod(method)
+		@instaceMethods.push(method)
+	end
+	def instanceMethods
+		@instaceMethods
 	end
 	def addClassMethod(method)
 		@classMethods.push(method)
