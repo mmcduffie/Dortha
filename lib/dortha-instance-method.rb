@@ -8,8 +8,11 @@ class InstanceMethod
 	end
 	def methodRegexp(givenName)
 		if givenName.include?("_")
-			#puts givenName.match(/add.*to/)
-			puts givenName.match(/.*my face.*with/)
+			regexp = givenName.gsub(/_/,".*")
+			#slash = "/"
+			#regexp = regexp << "/"
+			#regexp = slash << regexp
+			return Regexp.new(regexp)
 		else
 			return givenName
 		end
