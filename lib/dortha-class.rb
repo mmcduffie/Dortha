@@ -9,6 +9,9 @@ class Klass
 		@classMethods = []
 		@instaceMethods = []
 	end
+	def className
+		@name
+	end
 	def superClass
 		@superClass
 	end

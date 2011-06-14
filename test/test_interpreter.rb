@@ -19,4 +19,14 @@ class InterpreterTest < Test::Unit::TestCase
 		testResponce = @interpreter.call(message,receiver)
 		assert_equal(receiver,testResponce,"The call method should always return the object it called.")
 	end
+	def test_withClassKeyword
+		testArray = ["class TestClass"] # Since class is a keyword, putting class name in quotes is not nessasary.
+		@document = Document.new(testArray)
+		@interpreter = Interpreter.new
+		@document.parse
+		lineCount = @document.lineCount
+		@interpreter.interpret(@document.tokenStore,lineCount)
+		test = @interpreter.currentClass.className
+		assert_equal("TestClass",test,"The class we created should have the name we expect.")
+	end
 end

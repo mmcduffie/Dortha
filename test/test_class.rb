@@ -5,6 +5,10 @@ class KlassTest < Test::Unit::TestCase
 	def setup
 		@klass = Klass.new("klass")
 	end
+	def test_className
+		test = @klass.className
+		assert_equal("klass",test,"Class name not what we expected.")
+	end
 	def test_superClass
 		@klass.superClass = "foo"
 		test = @klass.superClass
