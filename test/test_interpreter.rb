@@ -29,4 +29,15 @@ class InterpreterTest < Test::Unit::TestCase
 		test = @interpreter.currentClass.className
 		assert_equal("TestClass",test,"The class we created should have the name we expect.")
 	end
+	def test_withMethodKeyword
+		testArray = ["method TestMethod"]
+		@document = Document.new(testArray)
+		@interpreter = Interpreter.new
+		@document.parse
+		lineCount = @document.lineCount
+		@interpreter.interpret(@document.tokenStore,lineCount)
+		testMethod = @interpreter.currentClass.instanceMethods[0]
+		test = testMethod.methodName
+		assert_equal("TestMethod",test,"The method we created should have the name we expect.")
+	end
 end

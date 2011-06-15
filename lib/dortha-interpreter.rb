@@ -2,6 +2,7 @@ class Interpreter
 	def initialize
 		loadEnviroment
 		@currentClass = @class
+		@currentMethod = nil
 	end
 	def interpret(tokenStore,lineCount)
 		@tokenStore = tokenStore
@@ -12,6 +13,11 @@ class Interpreter
 			keyword = currentMessages[0]
 			if keyword == "class"
 				@currentClass = Klass.new(currentReceiver)
+			end
+			if keyword == "method"
+				@currentMethod = InstanceMethod.new(currentReceiver,@currentClass)
+				# Need to add the body of the method somehow.
+				@currentMethod.save
 			end
 		end
 	end
