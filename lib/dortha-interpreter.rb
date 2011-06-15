@@ -3,6 +3,7 @@ class Interpreter
 		loadEnviroment
 		@currentClass = @class
 		@currentMethod = nil
+		@currentScope = @class # When code is executed outside of any user-defined class, it's scope is the base class.
 	end
 	def interpret(tokenStore,lineCount)
 		@tokenStore = tokenStore
@@ -13,11 +14,22 @@ class Interpreter
 			keyword = currentMessages[0]
 			if keyword == "class"
 				@currentClass = Klass.new(currentReceiver)
-			end
-			if keyword == "method"
+				@currentScope = @currentClass
+			elsif keyword == "method"
 				@currentMethod = InstanceMethod.new(currentReceiver,@currentClass)
-				# Need to add the body of the method somehow.
+				@currentScope = @currentMethod
 				@currentMethod.save
+				# TODO - add syntax like: "method foo of bar" for scope
+				# resolution and method nesting without end keywords or 
+				# intentation.
+			else
+				currentLine = currentMessages
+				currentLine.push(currentReceiver)
+				# TODO - add lines to class based on @currentScope.class 
+				# need to add support to InstanceMethod class to add one
+				# line at a time to methodBody. We will add each line from
+				# here to the current method if @currentScope.class is
+				# InstanceMethod.
 			end
 		end
 	end
