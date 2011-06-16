@@ -3,14 +3,18 @@
 # a name for the method and a class like this: method = InstanceMethod.new(name_of_method,class_of_method)
 
 class InstanceMethod
-	def initialize(methodName,klass)
+	def initialize(methodName,ancestors,klass)
 		@methodName = methodName
 		@methodRegexp = makeMethodRegexp(methodName)
 		@methodBody = []
+		@methodAncestors = ancestors
 		@class = klass
 	end
 	def klass
 		@class
+	end
+	def methodAncestors
+		@methodAncestors
 	end
 	def methodName
 		@methodName

@@ -16,12 +16,19 @@ class Interpreter
 				@currentClass = Klass.new(currentReceiver)
 				@currentScope = @currentClass
 			elsif keyword == "method"
-				@currentMethod = InstanceMethod.new(currentReceiver,@currentClass)
-				@currentScope = @currentMethod
-				@currentMethod.save
-				# TODO - add syntax like: "method foo of bar" for scope
-				# resolution and method nesting without end keywords or 
-				# intentation.
+				if currentMessages.include?("of")
+					chain = parseMethodAncestors(currentMessages)
+					chain.push(currentReceiver)
+					thisMethod = chain[0]
+					chain.delete(thisMethod)
+					@currentMethod = InstanceMethod.new(thisMethod,chain,@currentClass)
+					@currentScope = @currentMethod
+					@currentMethod.save
+				else
+					@currentMethod = InstanceMethod.new(currentReceiver,nil,@currentClass)
+					@currentScope = @currentMethod
+					@currentMethod.save
+				end
 			else
 				currentLine = currentMessages
 				currentLine.push(currentReceiver)
@@ -43,5 +50,15 @@ class Interpreter
 		@class = Klass.new("class") # Base class.
 		@output = Klass.new("output") # Built-in output class.
 		@output.superClass = "class"
+	end
+	def parseMethodAncestors(messages)
+		if messages[0] == "method" && messages.include?("of")
+			messages.delete("method")
+			messages.delete("of")
+			chain = messages
+			return chain
+		else
+			raise "Method declaration not provided in the correct format"
+		end
 	end
 end

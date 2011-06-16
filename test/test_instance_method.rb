@@ -4,19 +4,26 @@ require 'test/unit'
 class InstanceMethodTest < Test::Unit::TestCase
 	def setup
 		@klass = Klass.new("test")
-		@method = InstanceMethod.new("foo",@klass)
+		@method = InstanceMethod.new("foo",nil,@klass)
 	end
 	def test_klass
 		@testClass = @method.klass
 		test = @testClass.className
 		assert_equal("test",test,"This is not the class we're looking for.")
 	end
+	def test_methodAncestors
+		@klass = Klass.new("test")
+		chain = ["a","chain","with","methods"]
+		@method = InstanceMethod.new("foo",chain,@klass)
+		test = @method.methodAncestors
+		assert_equal(["a","chain","with","methods"],test,"Ancestor chain not what we set it to.")
+	end
 	def test_methodName
 		test = @method.methodName
 		assert_equal("foo",test,"Name of function not what we set it to.")
 	end
 	def test_methodRegexp
-		@method = InstanceMethod.new("this _ a _","test")
+		@method = InstanceMethod.new("this _ a _",nil,"test")
 		test = @method.methodRegexp
 		assert_equal(/this .* a .*/,test,"Returned regexp not what we expected.")
 	end
