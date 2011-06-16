@@ -42,4 +42,13 @@ class InterpreterTest < Test::Unit::TestCase
 		test = testMethod.methodBody
 		assert_equal([["test1","NextTest"],["anotherTest"]],test,"The method we created should have the content we expect.")
 	end
+	def test_nestedMethodRecognition
+		testArray = ["method test2 of test1"]
+		@document = Document.new(testArray)
+		@interpreter = Interpreter.new
+		@document.parse
+		lineCount = @document.lineCount
+		@interpreter.interpret(@document.tokenStore,lineCount)
+		testMethod = @interpreter.currentClass.instanceMethods[0]
+	end
 end
