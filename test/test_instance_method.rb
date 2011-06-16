@@ -29,9 +29,14 @@ class InstanceMethodTest < Test::Unit::TestCase
 		assert_equal(/ .* my face .* with/,test,"This call should return a regexp object of the expected format.")
 	end
 	def test_methodBody
-		@method.methodBody = [["test1","middleMethod","nexttTest1"],["test2","\"nextTest2\""],["test3","[nextTest3]"]]
+		@method.methodBody = [["test1","middleMethod","nextTest1"],["test2","\"nextTest2\""],["test3","[nextTest3]"]]
 		test = @method.methodBody
-		assert_equal([["test1","middleMethod","nexttTest1"],["test2","\"nextTest2\""],["test3","[nextTest3]"]],test)
+		assert_equal([["test1","middleMethod","nextTest1"],["test2","\"nextTest2\""],["test3","[nextTest3]"]],test)
+	end
+	def test_addLineToMethodBody
+		@method.addLineToMethodBody(["test1","nextTest1"])
+		test = @method.methodBody
+		assert_equal([["test1","nextTest1"]],test,"Line not added to method like we expected.")
 	end
 	def test_save
 		@method.methodBody = [["test1","middleMethod","nexttTest1"],["test2","\"nextTest2\""],["test3","[nextTest3]"]]

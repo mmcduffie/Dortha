@@ -32,6 +32,9 @@ class InstanceMethod
 	def methodBody
 		@methodBody
 	end
+	def addLineToMethodBody(line)
+		@methodBody.push(line)
+	end
 	def save
 		@class.addInstanceMethod(self)
 	end

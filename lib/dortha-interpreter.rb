@@ -25,11 +25,9 @@ class Interpreter
 			else
 				currentLine = currentMessages
 				currentLine.push(currentReceiver)
-				# TODO - add lines to class based on @currentScope.class 
-				# need to add support to InstanceMethod class to add one
-				# line at a time to methodBody. We will add each line from
-				# here to the current method if @currentScope.class is
-				# InstanceMethod.
+				if @currentScope.class == InstanceMethod
+					@currentMethod.addLineToMethodBody(currentLine)
+				end
 			end
 		end
 	end
