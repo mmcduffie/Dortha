@@ -34,6 +34,8 @@ class Interpreter
 				currentLine.push(currentReceiver)
 				if @currentScope.class == InstanceMethod
 					@currentMethod.addLineToMethodBody(currentLine)
+				elsif @currentScope.class == Klass
+					call(currentMessages,currentReceiver)
 				end
 			end
 		end
@@ -41,9 +43,10 @@ class Interpreter
 	def currentClass
 		@currentClass
 	end
-	def call(message,receiver)
-		receiver ||= Module.const_get(receiver)
-		receiver.send(message)
+	def call(messages,receiver)
+		#puts "#{messages} #{receiver}"
+		#receiver ||= Module.const_get(receiver)
+		#receiver.send(message)
 		return receiver
 	end
 	def loadEnviroment
@@ -59,6 +62,13 @@ class Interpreter
 			return chain
 		else
 			raise "Method declaration not provided in the correct format"
+		end
+	end
+	def parseMessages(messages)
+		if messages.include?("and")
+			puts messages.index("and")
+		else
+			
 		end
 	end
 end
