@@ -29,9 +29,15 @@ class InterpreterTest < Test::Unit::TestCase
 		assert_equal(["foo","bar","another"],chain,"The method's ancestor chain is not correct.")
 	end
 	def test_parseMessages
-		testMessages = ["test1","bleh","otherstuff","and","test2","bleh","blah","and","test3"]
+		testMessages = ["test1","bleh","otherstuff","and","test2","bleh","blah","and","test3"] # With and keywords.
 		test = @interpreter.parseMessages(testMessages)
-		#assert_equal(["test1 bleh otherstuff","test2 bleh blah","test3"],test,"Method list not correct.")
+		assert_equal(["test1 bleh otherstuff","test2 bleh blah","test3"],test,"Method list not correct.")
+		testMessages = ["test"] # With only one message.
+		test = @interpreter.parseMessages(testMessages)
+		assert_equal(["test"],test,"Method list not correct.")
+		testMessages = ["test1 test2"] # With more than one message.
+		test = @interpreter.parseMessages(testMessages)
+		assert_equal(["test1 test2"],test,"Method list not correct.")
 	end
 	def test_withClassKeyword
 		testArray = ["class TestClass"] # Since class is a keyword, putting class name in quotes is not nessasary.

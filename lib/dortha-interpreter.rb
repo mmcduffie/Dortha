@@ -30,12 +30,14 @@ class Interpreter
 					@currentMethod.save
 				end
 			else
-				currentLine = currentMessages
-				currentLine.push(currentReceiver)
 				if @currentScope.class == InstanceMethod
+					currentLine = currentMessages
+					currentLine.push(currentReceiver)
 					@currentMethod.addLineToMethodBody(currentLine)
 				elsif @currentScope.class == Klass
-					call(currentMessages,currentReceiver)
+					messages = parseMessages(currentMessages)
+					message = messages[0]
+					call(message,currentReceiver)
 				end
 			end
 		end
@@ -44,9 +46,8 @@ class Interpreter
 		@currentClass
 	end
 	def call(messages,receiver)
-		#puts "#{messages} #{receiver}"
-		#receiver ||= Module.const_get(receiver)
-		#receiver.send(message)
+		puts "#{messages.inspect} #{receiver}"
+		# TODO - Gotta get method calling for built-in methods locked down.
 		return receiver
 	end
 	def loadEnviroment
@@ -65,10 +66,29 @@ class Interpreter
 		end
 	end
 	def parseMessages(messages)
-		if messages.include?("and")
-			puts messages.index("and")
-		else
-			
+		methodList = []
+		until messages.empty?
+			if messages.include?("and")
+				endOfString = messages.index("and")
+				tempArray = messages[0..endOfString]
+				tempArray.pop
+				tempString = ""
+				tempArray.each do |string|
+					tempString << string << " "
+				end
+				tempString.chop! # The loop above leaves one trailing space.
+				methodList.push(tempString)
+				messages.slice!(0..endOfString)
+			else
+				tempString = ""
+				messages.each do |string|
+					tempString << string << " "
+				end
+				tempString.chop!
+				methodList.push(tempString)
+				messages.slice!(0..messages.length) 
+			end
 		end
+		return methodList
 	end
 end
