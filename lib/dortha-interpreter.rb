@@ -65,6 +65,40 @@ class Interpreter
 		@builtInMethodList = [/add .* to/,/subtract .* from/]
 		@builtInMethodNames = ["add","subtract"]
 	end
+	def	parseMethodArguments(methodRegexp,methodCall)
+		regexpString = methodRegexp.inspect
+		regexpString.chop!
+		regexpString = regexpString[1..regexpString.length] 
+		mask = regexpString.split(/\.\*/)
+		maskString = ""
+		mask.each do |part|
+			maskString << part
+		end
+		maskStringArray = maskString.split(//)
+		methodCallArray = methodCall.split(//)
+		methodCallArray.each_with_index do |char,index|
+			if char == maskStringArray[index]
+				# TODO - figure out why you can't do this without using this EXACT logic structure.
+			else
+				maskStringArray.insert(index,"_")
+			end
+		end
+		maskString = ""
+		maskIndexes = []
+		maskStringArray.each_with_index do |part,index|
+			if part == "_"
+				maskIndexes.push(index)
+			end
+			maskString << part
+		end
+		methodCall = ""
+		methodCallArray.each do |part|
+			methodCall << part
+		end
+		puts maskString
+		puts methodCall
+		puts maskIndexes.inspect
+	end
 	def parseMethodAncestors(messages)
 		if messages[0] == "method" && messages.include?("of")
 			messages.delete("method")

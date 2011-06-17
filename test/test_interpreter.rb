@@ -21,6 +21,10 @@ class InterpreterTest < Test::Unit::TestCase
 	end
 	def test_callBuiltInMethod
 		@interpreter.callBuiltInMethod("add","1","1")
+		# TODO - Finish this test.
+	end
+	def test_parseMethodArguments
+		@interpreter.parseMethodArguments(/add .* to number .* with/,"add 11 to number 3 with")
 	end
 	def test_parseMethodAncestors
 		assert_raise(RuntimeError) do
