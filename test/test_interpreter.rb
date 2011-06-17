@@ -24,7 +24,8 @@ class InterpreterTest < Test::Unit::TestCase
 		# TODO - Finish this test.
 	end
 	def test_parseMethodArguments
-		@interpreter.parseMethodArguments(/add .* to number .* with/,"add 11 to number 3 with")
+		test = @interpreter.parseMethodArguments(/add .* to number .* with/,"add 11 to number 3 with")
+		assert_equal(["11","3"],test,"This method should return the arguments of the method call.")
 	end
 	def test_parseMethodAncestors
 		assert_raise(RuntimeError) do

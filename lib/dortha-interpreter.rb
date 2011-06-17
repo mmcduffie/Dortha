@@ -95,9 +95,23 @@ class Interpreter
 		methodCallArray.each do |part|
 			methodCall << part
 		end
-		puts maskString
-		puts methodCall
-		puts maskIndexes.inspect
+		tempString = ""
+		argumentArray = []
+		more = false
+		methodCallArray.each_with_index do |part,index|
+			if maskIndexes.include?(index)
+				tempString << part
+				nextIndex = index + 1
+				if maskStringArray[nextIndex] == "_"
+					more = true
+				else
+					more = false
+					argumentArray.push(tempString)
+					tempString = ""
+				end
+			end
+		end
+		return argumentArray
 	end
 	def parseMethodAncestors(messages)
 		if messages[0] == "method" && messages.include?("of")
