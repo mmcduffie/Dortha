@@ -49,9 +49,9 @@ class Interpreter
 			message = messages.pop
 			@builtInMethodList.each_with_index do |method,index|
 				if message.match(method)
-					method = @builtInMethodNames[index]
-					arguments = "" # TODO - need a method that can extract arguments from method call based on regexp?
-					callBuiltInMethod(method,arguments,receiver)
+					methodName = @builtInMethodNames[index]
+					arguments = parseMethodArguments(method,message)
+					callBuiltInMethod(methodName,arguments,receiver)
 				end
 			end
 		end

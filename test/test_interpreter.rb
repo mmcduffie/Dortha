@@ -14,10 +14,10 @@ class InterpreterTest < Test::Unit::TestCase
 		@interpreter.interpret(@document.tokenStore,lineCount)
 	end
 	def test_call
-		#message = "methods"
-		#receiver = Object.new # The receiver can be any ruby object.
-		#testResponce = @interpreter.call(message,receiver)
-		#assert_equal(receiver,testResponce,"The call method should always return the object it called.")
+		message = ["add 1 to"]
+		receiver = "1"
+		testResponce = @interpreter.call(message,receiver)
+		assert_equal(receiver,testResponce,"The call method should always return the object it called.")
 	end
 	def test_callBuiltInMethod
 		@interpreter.callBuiltInMethod("add","1","1")
