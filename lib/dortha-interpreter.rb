@@ -36,8 +36,7 @@ class Interpreter
 					@currentMethod.addLineToMethodBody(currentLine)
 				elsif @currentScope.class == Klass
 					messages = parseMessages(currentMessages)
-					message = messages[0]
-					call(message,currentReceiver)
+					call(messages,currentReceiver)
 				end
 			end
 		end
@@ -46,14 +45,25 @@ class Interpreter
 		@currentClass
 	end
 	def call(messages,receiver)
-		puts "#{messages.inspect} #{receiver}"
-		# TODO - Gotta get method calling for built-in methods locked down.
+		until messages.empty?
+			message = messages.pop
+			@builtInMethodList.each_with_index do |method,index|
+				if message.match(method)
+					method = @builtInMethodNames[index]
+					arguments = "" # TODO - need a method that can extract arguments from method call based on regexp?
+					callBuiltInMethod(method,arguments,receiver)
+				end
+			end
+		end
 		return receiver
+	end
+	def callBuiltInMethod(method,arguments,receiver)
+		# ToDo - need a built-in method for "add" and a way to call it based on sending the string "add" to this method.
 	end
 	def loadEnviroment
 		@class = Klass.new("class") # Base class.
-		@output = Klass.new("output") # Built-in output class.
-		@output.superClass = "class"
+		@builtInMethodList = [/add .* to/,/subtract .* from/]
+		@builtInMethodNames = ["add","subtract"]
 	end
 	def parseMethodAncestors(messages)
 		if messages[0] == "method" && messages.include?("of")

@@ -19,6 +19,9 @@ class InterpreterTest < Test::Unit::TestCase
 		#testResponce = @interpreter.call(message,receiver)
 		#assert_equal(receiver,testResponce,"The call method should always return the object it called.")
 	end
+	def test_callBuiltInMethod
+		@interpreter.callBuiltInMethod("add","1","1")
+	end
 	def test_parseMethodAncestors
 		assert_raise(RuntimeError) do
 			testMessages = ["bleh","wut"]
@@ -72,5 +75,13 @@ class InterpreterTest < Test::Unit::TestCase
 		testMethod = @interpreter.currentClass.instanceMethods[0]
 		testChain = testMethod.methodAncestors
 		assert_equal(["test1","bleh","whatever"],testChain,"The method we created does not have a correct ancestor chain.")
+	end
+	def test_builtInMethodRecognition
+		testArray = ["add 1 to 1"]
+		@document = Document.new(testArray)
+		@interpreter = Interpreter.new
+		@document.parse
+		lineCount = @document.lineCount
+		@interpreter.interpret(@document.tokenStore,lineCount)
 	end
 end
