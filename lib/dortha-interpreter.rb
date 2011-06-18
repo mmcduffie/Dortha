@@ -58,12 +58,15 @@ class Interpreter
 		return receiver
 	end
 	def callBuiltInMethod(method,arguments,receiver)
-		# ToDo - need a built-in method for "add" and a way to call it based on sending the string "add" to this method.
+		args = []
+		args.push(arguments)
+		args.push(receiver)
+		self.send(method,args)
 	end
 	def loadEnviroment
 		@class = Klass.new("class") # Base class.
-		@builtInMethodList = [/add .* to/,/subtract .* from/]
-		@builtInMethodNames = ["add","subtract"]
+		@builtInMethodList = [/add .* to/,/subtract .* from/,/say/]
+		@builtInMethodNames = ["add","subtract","say"]
 	end
 	def	parseMethodArguments(methodRegexp,methodCall)
 		regexpString = methodRegexp.inspect
@@ -148,5 +151,21 @@ class Interpreter
 			end
 		end
 		return methodList
+	end
+	# Temporary home of built-in methods.
+	def add(args)
+		addThisArray = args[0]
+		addThis = addThisArray[0]
+		addThis = addThis.to_i
+		toThis = args[1].to_i
+		result = addThis + toThis
+	end
+	def say(args)
+		whatToSay = args[1]
+		if whatToSay.match(/^\"/) && whatToSay.match(/\"$/)
+			theEnd = whatToSay.length - 2
+			whatToSay = whatToSay[1..theEnd]
+		end
+		puts whatToSay
 	end
 end

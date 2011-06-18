@@ -1,6 +1,9 @@
 require 'dortha-document'
 require 'dortha-token'
-require 'dortha-token-stack'
+require 'dortha-token-store'
+require 'dortha-interpreter.rb'
+require 'dortha-class.rb'
+require 'dortha-instance-method.rb'
 
 blankArray = []
 
@@ -19,3 +22,6 @@ ARGF.each_line do |line|
 end
 
 document.parse
+interpreter = Interpreter.new
+lineCount = document.lineCount
+interpreter.interpret(document.tokenStore,lineCount)

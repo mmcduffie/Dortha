@@ -20,8 +20,8 @@ class InterpreterTest < Test::Unit::TestCase
 		assert_equal(receiver,testResponce,"The call method should always return the object it called.")
 	end
 	def test_callBuiltInMethod
-		@interpreter.callBuiltInMethod("add","1","1")
-		# TODO - Finish this test.
+		test = @interpreter.callBuiltInMethod("add",["1"],"1")
+		assert_equal(2,test,"One plus one equals two.")
 	end
 	def test_parseMethodArguments
 		test = @interpreter.parseMethodArguments(/add .* to number .* with/,"add 11 to number 3 with")
