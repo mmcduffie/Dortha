@@ -1,4 +1,9 @@
+require '../lib/interpreter_helper.rb'
+require '../lib/built_in_methods.rb'
+
 class Interpreter
+	include InterpreterHelper
+	include BuiltInMethods
 	def initialize
 		loadEnviroment
 		@currentClass = @class
@@ -10,6 +15,7 @@ class Interpreter
 		@lineCount = lineCount
 		lineCount.times do |line|
 			currentReceiver = @tokenStore.receiver(line)
+			# TODO - Use the detectObjectType method to convert currentReceiver into the correct type?
 			currentMessages = @tokenStore.messages(line)
 			keyword = currentMessages[0]
 			if keyword == "class"
@@ -80,9 +86,7 @@ class Interpreter
 		maskStringArray = maskString.split(//)
 		methodCallArray = methodCall.split(//)
 		methodCallArray.each_with_index do |char,index|
-			if char == maskStringArray[index]
-				# TODO - figure out why you can't do this without using this EXACT logic structure.
-			else
+			if char != maskStringArray[index]
 				maskStringArray.insert(index,"_")
 			end
 		end
@@ -151,21 +155,5 @@ class Interpreter
 			end
 		end
 		return methodList
-	end
-	# Temporary home of built-in methods.
-	def add(args)
-		addThisArray = args[0]
-		addThis = addThisArray[0]
-		addThis = addThis.to_i
-		toThis = args[1].to_i
-		result = addThis + toThis
-	end
-	def say(args)
-		whatToSay = args[1]
-		if whatToSay.match(/^\"/) && whatToSay.match(/\"$/)
-			theEnd = whatToSay.length - 2
-			whatToSay = whatToSay[1..theEnd]
-		end
-		puts whatToSay
 	end
 end
