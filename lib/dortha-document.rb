@@ -1,4 +1,7 @@
+require '../lib/document_helper.rb'
+
 class Document < Array
+	include DocumentHelper
 	def initialize(sourceFile)
 		super # Call ruby's built-in Array initializer.
 		@tokenStore = TokenStore.new
@@ -30,10 +33,11 @@ class Document < Array
 	def stripSingleToken(lineNumber)
 		tokenLength = self[lineNumber].length # Find end of Token.
 		tokenString = self[lineNumber].slice!(0,tokenLength) # Remove token from line.
-		token = Token.new(@tokenStack,@tokenStore) # Create a new Token.
+		token = Token.new(@tokenStore) # Create a new Token.
 		token.lineNumber = lineNumber # Set it's line number.
 		token.value = tokenString # Set it's value.
-		token.save # Persist the token to the TokenStack.
+		token.objectType = "methodNameOrVariable"
+		token.save # Persist the token to the TokenStore.
 	end
 	def stripPlainToken(lineNumber)
 		tokenLength = self[lineNumber].index(/\s/) # Find end of Token (indicated by whitespace).
@@ -44,10 +48,11 @@ class Document < Array
 		while self[lineNumber].match(/^\s/) # If characters after token are whitespace...
 			self[lineNumber].slice!(0) # Delete them.
 		end
-		token = Token.new(@tokenStack,@tokenStore) # Create a new Token.
+		token = Token.new(@tokenStore) # Create a new Token.
 		token.lineNumber = lineNumber # Set it's line number.
 		token.value = tokenString # Set it's value.
-		token.save # Persist the token to the TokenStack.
+		token.objectType = "methodNameOrVariable"
+		token.save # Persist the token to the TokenStore.
 	end
 	def stripQuotedToken(lineNumber)
 		self[lineNumber].slice!(0) # Remove leading quote.
@@ -56,11 +61,14 @@ class Document < Array
 		while self[lineNumber].match(/^\s/) # If characters after quoted token are whitespace...
 			self[lineNumber].slice!(0) # Delete them.
 		end
-		tokenString = '"' + tokenString # Put a quote back on the front of the string for storage.
-		token = Token.new(@tokenStack,@tokenStore) # Create a new Token.
+		tokenStringLength = tokenString.length
+		tokenStringNextToLast = tokenStringLength - 1
+		tokenString.slice!(tokenStringNextToLast..tokenStringLength) #We Don't want a quote on the end of the string for storage. 
+		token = Token.new(@tokenStore) # Create a new Token.
 		token.lineNumber = lineNumber # Set it's line number.
 		token.value = tokenString # Set it's value.
-		token.save # Persist the token to the TokenStack.
+		token.objectType = "String"
+		token.save # Persist the token to the TokenStore.
 	end
 	def stripBraketedToken(lineNumber)
 		self[lineNumber].slice!(0) # Remove leading braket.
@@ -70,9 +78,10 @@ class Document < Array
 			self[lineNumber].slice!(0) # Delete them.
 		end
 		tokenString = '[' + tokenString # Put a braket back on the front of the string for storage.
-		token = Token.new(@tokenStack,@tokenStore) # Create a new Token.
+		token = Token.new(@tokenStore) # Create a new Token.
 		token.lineNumber = lineNumber # Set it's line number.
 		token.value = tokenString # Set it's value.
-		token.save # Persist the token to the TokenStack.
+		token.objectType = "Array"
+		token.save # Persist the token to the TokenStore.
 	end
 end

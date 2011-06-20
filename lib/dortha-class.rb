@@ -7,7 +7,9 @@ class Klass
 		@name = name
 		@superClass = nil
 		@classMethods = []
-		@instaceMethods = []
+		@instanceMethods = []
+		@instanceVariables = []
+		@instanceVariableValues = []
 	end
 	def className
 		@name
@@ -19,10 +21,10 @@ class Klass
 		@superClass = superClass
 	end
 	def addInstanceMethod(method)
-		@instaceMethods.push(method)
+		@instanceMethods.push(method)
 	end
 	def instanceMethods
-		@instaceMethods
+		@instanceMethods
 	end
 	def addClassMethod(method)
 		@classMethods.push(method)
@@ -36,5 +38,16 @@ class Klass
 		else
 			return false
 		end
+	end
+	def addInstanceVariable(name,value)
+		@instanceVariables.push(name)
+		@instanceVariableValues.push(value)
+	end
+	def showVariableValue(name)
+		index = @instanceVariables.index(name)
+		if index.nil?
+			raise "No variable found by the name \"#{name}\"."
+		end
+		value = @instanceVariableValues[index]
 	end
 end

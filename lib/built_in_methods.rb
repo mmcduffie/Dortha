@@ -8,10 +8,6 @@ module BuiltInMethods
 	end
 	def say(args)
 		whatToSay = args[1]
-		if whatToSay.match(/^\"/) && whatToSay.match(/\"$/)
-			theEnd = whatToSay.length - 2
-			whatToSay = whatToSay[1..theEnd]
-		end
 		puts whatToSay
 	end
 end

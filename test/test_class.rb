@@ -28,4 +28,12 @@ class KlassTest < Test::Unit::TestCase
 		@klass.addClassMethod("foo")
 		assert(@klass.checkForMethod("foo"),"checkForMethod should return true.")
 	end
+	def test_showVariableValue
+		@klass.addInstanceVariable("foo",1)
+		test = @klass.showVariableValue("foo")
+		assert_equal(1,test,"showVariableValue should value we set.")
+		assert_raise(RuntimeError) do
+			notValid = @klass.showVariableValue("bar")
+		end
+	end
 end

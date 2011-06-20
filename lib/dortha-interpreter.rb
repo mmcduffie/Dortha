@@ -6,18 +6,18 @@ class Interpreter
 	include BuiltInMethods
 	def initialize
 		loadEnviroment
-		@currentClass = @class
+		@currentClass = @instance
 		@currentMethod = nil
-		@currentScope = @class # When code is executed outside of any user-defined class, it's scope is the base class.
+		@currentScope = @instance # When code is executed outside of any user-defined class, it's scope is the base class.
 	end
 	def interpret(tokenStore,lineCount)
 		@tokenStore = tokenStore
 		@lineCount = lineCount
 		lineCount.times do |line|
 			currentReceiver = @tokenStore.receiver(line)
-			# TODO - Use the detectObjectType method to convert currentReceiver into the correct type?
+			currentReceiverType = @tokenStore.receiverType(line) # Notice we also get the object's type here.
 			currentMessages = @tokenStore.messages(line)
-			keyword = currentMessages[0]
+			keyword = currentMessages[0] # For keyword detection.
 			if keyword == "class"
 				@currentClass = Klass.new(currentReceiver)
 				@currentScope = @currentClass
@@ -70,7 +70,7 @@ class Interpreter
 		self.send(method,args)
 	end
 	def loadEnviroment
-		@class = Klass.new("class") # Base class.
+		@instance = Klass.new("class") # Base class.
 		@builtInMethodList = [/add .* to/,/subtract .* from/,/say/]
 		@builtInMethodNames = ["add","subtract","say"]
 	end
