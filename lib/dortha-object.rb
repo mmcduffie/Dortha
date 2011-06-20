@@ -5,10 +5,14 @@
 # Docs and syntax it will be "Object"
 
 class Thing
-	def initialize
+	def initialize(name)
 		@instanceVariables = []
 		@instanceVariableValues = []
 		@klass = nil
+		@objectName = name
+	end
+	def objectName
+		@objectName
 	end
 	def addInstanceVariable(variable)
 		if @instanceVariables.include?(variable)

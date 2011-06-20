@@ -16,7 +16,8 @@ class InterpreterTest < Test::Unit::TestCase
 	def test_call
 		message = ["add 1 to"]
 		receiver = "1"
-		testResponce = @interpreter.call(message,receiver)
+		currentReceiverType = "Number"
+		testResponce = @interpreter.call(message,receiver,currentReceiverType)
 		assert_equal(receiver,testResponce,"The call method should always return the object it called.")
 	end
 	def test_callBuiltInMethod

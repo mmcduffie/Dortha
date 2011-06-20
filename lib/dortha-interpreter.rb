@@ -5,10 +5,14 @@ class Interpreter
 	include InterpreterHelper
 	include BuiltInMethods
 	def initialize
-		loadEnviroment
 		@currentClass = @instance
 		@currentMethod = nil
 		@currentScope = @instance # When code is executed outside of any user-defined class, it's scope is the base class.
+		@instance = Klass.new("class") # Base class.
+		@currentObject = Thing.new("main") # Base object
+		@currentObject.klass = "class"
+		@builtInMethodList = [/add .* to/,/subtract .* from/,/say/]
+		@builtInMethodNames = ["add","subtract","say"]
 	end
 	def interpret(tokenStore,lineCount)
 		@tokenStore = tokenStore
@@ -21,6 +25,8 @@ class Interpreter
 			if keyword == "class"
 				@currentClass = Klass.new(currentReceiver)
 				@currentScope = @currentClass
+			elsif keyword == "create"
+				createNew(currentReceiver,currentReceiverType,currentMessages)
 			elsif keyword == "method"
 				if currentMessages.include?("of")
 					chain = parseMethodAncestors(currentMessages)
@@ -42,7 +48,7 @@ class Interpreter
 					@currentMethod.addLineToMethodBody(currentLine)
 				elsif @currentScope.class == Klass
 					messages = parseMessages(currentMessages)
-					call(messages,currentReceiver)
+					call(messages,currentReceiver,currentReceiverType)
 				end
 			end
 		end
@@ -50,7 +56,7 @@ class Interpreter
 	def currentClass
 		@currentClass
 	end
-	def call(messages,receiver)
+	def call(messages,receiver,currentReceiverType)
 		until messages.empty?
 			message = messages.pop
 			@builtInMethodList.each_with_index do |method,index|
@@ -68,11 +74,6 @@ class Interpreter
 		args.push(arguments)
 		args.push(receiver)
 		self.send(method,args)
-	end
-	def loadEnviroment
-		@instance = Klass.new("class") # Base class.
-		@builtInMethodList = [/add .* to/,/subtract .* from/,/say/]
-		@builtInMethodNames = ["add","subtract","say"]
 	end
 	def	parseMethodArguments(methodRegexp,methodCall)
 		regexpString = methodRegexp.inspect

@@ -3,7 +3,7 @@ require 'test/unit'
 
 class ThingTest < Test::Unit::TestCase
 	def setup
-		@thing = Thing.new # We call objects "Things" so they don't trip over Ruby's built-in Object class.
+		@thing = Thing.new("thing") # We call objects "Things" so they don't trip over Ruby's built-in Object class.
 	end
 	def test_addInstanceVariable
 		@thing.addInstanceVariable("foo")
