@@ -7,10 +7,18 @@ class InterpreterHelperTest < Test::Unit::TestCase
 		@interpreter = Interpreter.new
 	end
 	def test_createNew
-		value = "1"
-		type = "methodNameOrVariable"
-		messages = ["create","Number","with","value"]
-		@interpreter.createNew(value,type,messages)
+		#value = "1"
+		#type = "methodNameOrVariable"
+		#messages = ["create","Number","with","value"]
+		#thing = @interpreter.createNew(value,type,messages)
+		value = "some text"
+		type = "String"
+		messages = ["create","textVariable","with","value"]
+		thing = @interpreter.createNew(value,type,messages)
+		test = @interpreter.currentObject.klass
+		assert_equal("class",test,"Our new variable is stored in the current object, and the current object's class should be \"class\".")
+		test = @interpreter.currentObject.getValue("textVariable")
+		assert_equal("some text",test,"Our new variable should have it's value stored in the current object.")
 	end
 	def test_convertObjectsByType
 		

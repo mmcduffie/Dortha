@@ -1,1 +1,3 @@
-say "Hello World"
+create number 1
+add 1 to number
+say number
