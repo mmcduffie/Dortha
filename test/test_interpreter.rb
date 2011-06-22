@@ -24,13 +24,14 @@ class InterpreterTest < Test::Unit::TestCase
 	end
 	def test_call
 		message = ["add 1 to"]
-		receiver = 1
+		receiver = NumberType.new(1)
 		currentReceiverType = "Number"
 		testResponce = @interpreter.call(message,receiver,currentReceiverType)
 		assert_equal(receiver,testResponce,"The call method should always return the object it called.")
 	end
 	def test_callBuiltInMethod
-		test = @interpreter.callBuiltInMethod("add",[1],1)
+		number = NumberType.new(1)
+		test = @interpreter.callBuiltInMethod("add",[1],number)
 		assert_equal(2,test,"One plus one equals two.")
 	end
 	def test_parseMethodArguments
@@ -92,7 +93,7 @@ class InterpreterTest < Test::Unit::TestCase
 		assert_equal(["test1","bleh","whatever"],testChain,"The method we created does not have a correct ancestor chain.")
 	end
 	def test_builtInMethodRecognition
-		testArray = ["create number 1","add 1 to number"]
+		testArray = ["create variable number 1","add 1 to number"]
 		@document = Document.new(testArray)
 		@interpreter = Interpreter.new
 		@document.parse

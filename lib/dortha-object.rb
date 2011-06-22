@@ -38,7 +38,7 @@ class Thing
 		if @instanceVariables.index(variable)
 			index = @instanceVariables.index(variable)
 		else
-			raise "Variable not found."
+			raise "Variable #{variable} not found."
 		end
 		@instanceVariableValues[index]
 	end

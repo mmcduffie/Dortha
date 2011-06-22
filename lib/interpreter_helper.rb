@@ -1,23 +1,30 @@
 module InterpreterHelper
-	def createNew(value,type,messages) # The three types the parser can understand are "String", "Array", or "methodNameOrVariable".
-		variableName = messages[1]
-		if type == "methodNameOrVariable"
-			# Not sure what to do here, probobly create a new instance of a class with this name?
-			if value == "0"
+	def createNew(receiver,type,messages) # The three types the parser can understand are "String", "Array", or "methodNameOrVariable".
+		object = nil
+		typeToCreate = messages[1]
+		if typeToCreate == "variable"
+			variableName = messages[2]
+			if type == "methodNameOrVariable"
+				# Not sure what to do here, probobly create a new instance of a class with this name?
+				if receiver == "0"
+					object = NumberType.new(0)
+					@currentObject.addInstanceVariable(variableName)
+					@currentObject.assignValue(object,variableName)
+				elsif receiver.to_i != 0
+					number = receiver.to_i
+					object = NumberType.new(number)
+					@currentObject.addInstanceVariable(variableName)
+					@currentObject.assignValue(object,variableName)
+				end
+			elsif type == "String"
+				object = String.new(receiver)
 				@currentObject.addInstanceVariable(variableName)
-				@currentObject.assignValue(0,variableName)
-			elsif value.to_i != 0
-				number = value.to_i
-				@currentObject.addInstanceVariable(variableName)
-				@currentObject.assignValue(number,variableName)
+				@currentObject.assignValue(object,variableName)
+			elsif type == "Array"
+				#puts "Array"
 			end
-		elsif type == "String"
-			@currentObject.addInstanceVariable(variableName)
-			@currentObject.assignValue(value,variableName)
-		elsif type == "Array"
-			#puts "Array"
+			return object #@currentObject.getValue(variableName)
 		end
-		return @currentObject.getValue(variableName)
 	end
 	def convertObjectsByType(token)
 		#if token.match(/^\"/) && token.match(/\"$/)
