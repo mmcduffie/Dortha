@@ -1,3 +1,6 @@
+require '../lib/type_number.rb'
+require '../lib/type_string.rb'
+
 module InterpreterHelper
 	def createNew(receiver,type,messages) # The three types the parser can understand are "String", "Array", or "methodNameOrVariable".
 		object = nil
@@ -5,7 +8,6 @@ module InterpreterHelper
 		if typeToCreate == "variable"
 			variableName = messages[2]
 			if type == "methodNameOrVariable"
-				# Not sure what to do here, probobly create a new instance of a class with this name?
 				if receiver == "0"
 					object = NumberType.new(0)
 					@currentObject.addInstanceVariable(variableName)
@@ -17,35 +19,21 @@ module InterpreterHelper
 					@currentObject.assignValue(object,variableName)
 				end
 			elsif type == "String"
-				object = String.new(receiver)
+				object = StringType.new(receiver)
 				@currentObject.addInstanceVariable(variableName)
 				@currentObject.assignValue(object,variableName)
 			elsif type == "Array"
-				#puts "Array"
+				# TODO - Add code for creating array objects from strings that look like arrays.
 			end
-			return object #@currentObject.getValue(variableName)
+			return object
 		end
 	end
 	def convertObjectsByType(token)
-		#if token.match(/^\"/) && token.match(/\"$/)
-		#	return token
-		#elsif token.match(/^\[/) && token.match(/\]$/)
-		#	token.slice!(0)
-		#	tokenLength = token.length
-		#	nextToLast = tokenLength - 1
-		#	token.slice!(nextToLast..tokenLength)
-		#	array = token.split(",")
-		#	array.each_with_index do |token,index|
-		#		array[index] = setObjectType(token) # Each object in the array has to be passed through again.
-		#	end
-		#	return array
 		if token == "0"
 			return 0
 		elsif token.to_i != 0
 			return token.to_i
 		end
-		#	return token
-		#end
 	end
 	def	parseMethodArguments(methodRegexp,methodCall)
 		regexpString = methodRegexp.inspect
@@ -92,7 +80,7 @@ module InterpreterHelper
 			end
 		end
 		argumentArray.each_with_index do |token,index|
-			argumentArray[index] = convertObjectsByType(token)
+			argumentArray[index] = convertObjectsByType(token) # String of different data types are converted to objects at this point.
 		end
 		return argumentArray
 	end

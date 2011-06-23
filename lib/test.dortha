@@ -1,3 +1,3 @@
-create number 1
-add 1 to number
+create variable number 5
+add 5 to number
 say number
