@@ -1,10 +1,10 @@
 require '../lib/types/dortha-base-type.rb'
 
-class DorthaStringType < DorthaBaseType
+class DorthaArrayType < DorthaBaseType
 	def initialize(value)
 		@value = value
 	end
-	def string?
+	def array?
 		true
 	end
 end

@@ -18,10 +18,17 @@ class DorthaBaseTypeTest < Test::Unit::TestCase
 		assert_equal(false,test)
 		test = @baseType.variable?
 		assert_equal(false,test)
+		test = @baseType.other?
+		assert_equal(false,test)
 	end
 	def test_value
 		@baseType.value = "test"
 		test = @baseType.value
 		assert_equal("test",test,"Instance of type should have value we set.")
+	end
+	def test_lineNumber
+		@baseType.lineNumber = 2
+		test = @baseType.lineNumber
+		assert_equal(2,test,"Instance of type should have line number we set.")
 	end
 end

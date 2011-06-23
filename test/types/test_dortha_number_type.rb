@@ -16,6 +16,8 @@ class DorthaNumberTypeTest < Test::Unit::TestCase
 		assert_equal(false,test)
 		test = @number.variable?
 		assert_equal(false,test)
+		test = @number.other?
+		assert_equal(false,test)
 	end
 	def test_value
 		test = @number.value

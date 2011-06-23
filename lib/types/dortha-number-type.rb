@@ -1,3 +1,5 @@
+require '../lib/types/dortha-base-type.rb'
+
 class DorthaNumberType < DorthaBaseType
 	def initialize(value)
 		@value = value
