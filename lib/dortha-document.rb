@@ -33,6 +33,9 @@ class Document < Array
 	def stripSingleToken(lineNumber)
 		tokenLength = self[lineNumber].length # Find end of Token.
 		tokenString = self[lineNumber].slice!(0,tokenLength) # Remove token from line.
+		
+		#puts convertTokenToObject(tokenString,lineNumber)
+		
 		token = Token.new(@tokenStore) # Create a new Token.
 		token.lineNumber = lineNumber # Set it's line number.
 		token.value = tokenString # Set it's value.
@@ -48,6 +51,9 @@ class Document < Array
 		while self[lineNumber].match(/^\s/) # If characters after token are whitespace...
 			self[lineNumber].slice!(0) # Delete them.
 		end
+		
+		#puts convertTokenToObject(tokenString,lineNumber)
+		
 		token = Token.new(@tokenStore) # Create a new Token.
 		token.lineNumber = lineNumber # Set it's line number.
 		token.value = tokenString # Set it's value.
@@ -63,7 +69,10 @@ class Document < Array
 		end
 		tokenStringLength = tokenString.length
 		tokenStringNextToLast = tokenStringLength - 1
-		tokenString.slice!(tokenStringNextToLast..tokenStringLength) #We Don't want a quote on the end of the string for storage. 
+		tokenString.slice!(tokenStringNextToLast..tokenStringLength) #We Don't want a quote on the end of the string for storage.
+		
+		#puts DorthaStringType.new(tokenString,lineNumber)
+		
 		token = Token.new(@tokenStore) # Create a new Token.
 		token.lineNumber = lineNumber # Set it's line number.
 		token.value = tokenString # Set it's value.
@@ -78,6 +87,9 @@ class Document < Array
 			self[lineNumber].slice!(0) # Delete them.
 		end
 		tokenString = '[' + tokenString # Put a braket back on the front of the string for storage.
+		
+		#puts DorthaArrayType.new(tokenString,lineNumber)
+		
 		token = Token.new(@tokenStore) # Create a new Token.
 		token.lineNumber = lineNumber # Set it's line number.
 		token.value = tokenString # Set it's value.

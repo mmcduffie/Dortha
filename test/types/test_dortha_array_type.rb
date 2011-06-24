@@ -3,7 +3,7 @@ require 'test/unit'
 
 class DorthaArrayTypeTest < Test::Unit::TestCase
 	def setup
-		@array = DorthaArrayType.new("test")
+		@array = DorthaArrayType.new("test",1)
 	end
 	def test_typeChecks
 		test = @array.number?

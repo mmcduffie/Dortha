@@ -3,7 +3,7 @@ require 'test/unit'
 
 class DorthaNumberTypeTest < Test::Unit::TestCase
 	def setup
-		@number = DorthaNumberType.new(1)
+		@number = DorthaNumberType.new(1,1)
 	end
 	def test_typeChecks
 		test = @number.number?

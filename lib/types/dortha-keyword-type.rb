@@ -5,8 +5,9 @@ require '../lib/types/dortha-base-type.rb'
 # a keyword, the first token on the line has to match a list of built-in keywords.
 
 class DorthaKeywordType < DorthaBaseType
-	def initialize(value)
+	def initialize(value,lineNumber)
 		@value = value
+		@lineNumber = lineNumber
 	end
 	def keyword?
 		true

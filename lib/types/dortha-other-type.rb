@@ -5,8 +5,9 @@ require '../lib/types/dortha-base-type.rb'
 # be parts of method declarations or calls, modifiers, and other things.
 
 class DorthaOtherType < DorthaBaseType
-	def initialize(value)
+	def initialize(value,lineNumber)
 		@value = value
+		@lineNumber = lineNumber
 	end
 	def other?
 		true

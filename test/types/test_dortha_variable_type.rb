@@ -3,7 +3,7 @@ require 'test/unit'
 
 class DorthaVariableTypeTest < Test::Unit::TestCase
 	def setup
-		@variable = DorthaVariableType.new("data")
+		@variable = DorthaVariableType.new("data",1)
 	end
 	def test_typeChecks
 		test = @variable.number?

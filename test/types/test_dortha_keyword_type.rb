@@ -3,7 +3,7 @@ require 'test/unit'
 
 class DorthaKeywordTypeTest < Test::Unit::TestCase
 	def setup
-		@keyword = DorthaKeywordType.new("method")
+		@keyword = DorthaKeywordType.new("method",1)
 	end
 	def test_typeChecks
 		test = @keyword.number?
