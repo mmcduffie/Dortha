@@ -9,9 +9,8 @@ class InterpreterTest < Test::Unit::TestCase
 		@interpreter = Interpreter.new
 	end
 	def test_interpret
-		#@document.parse
-		#lineCount = @document.lineCount
-		#@interpreter.interpret(@document.tokenStore,lineCount)
+		@document.parse
+		@interpreter.interpret(@document.tokenStore)
 		# TODO - No assertion here.
 	end
 	def test_currentClass

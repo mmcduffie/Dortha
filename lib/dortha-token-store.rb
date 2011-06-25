@@ -6,6 +6,14 @@ class TokenStore
 	def tokenStore
 		@tokenStore
 	end
+	def lineCount
+		count = @tokenStore.length
+		if count == 0
+			return 0
+		elsif count > 0
+			return count - 1
+		end
+	end
 	def addToken(token)
 		line = token.lineNumber
 		if @tokenStore[line]

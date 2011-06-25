@@ -21,9 +21,9 @@ class Interpreter
 	def currentObject
 		@currentObject
 	end
-	def interpret(tokenStore,lineCount)
+	def interpret(tokenStore)
 		@tokenStore = tokenStore
-		@lineCount = lineCount
+		lineCount = @tokenStore.lineCount
 		lineCount.times do |line|
 			currentReceiver = @tokenStore.receiver(line)
 			currentReceiverType = currentReceiver.class # Notice we also get the object's type here.

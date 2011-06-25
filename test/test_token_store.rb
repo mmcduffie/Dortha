@@ -5,6 +5,20 @@ class TokenStoreTest < Test::Unit::TestCase
 	def setup
 		@store = TokenStore.new
 	end
+	def test_lineCount
+		test = @store.lineCount # No lines yet.
+		assert_equal(0,test,"Line count should be 0.") 
+		token = DorthaStringType.new("test1",1)
+		@store.addToken(token)
+		token = DorthaStringType.new("test2",1) # Notice this is also on line 1.
+		@store.addToken(token)
+		test = @store.lineCount
+		assert_equal(1,test,"Line count should be 1.")
+		token = DorthaStringType.new("test3",2) # Now we add another token on another line.
+		@store.addToken(token)
+		test = @store.lineCount
+		assert_equal(2,test,"Line count should be 2.")
+	end
 	def test_addToken
 		token = DorthaStringType.new("test1",3)
 		@store.addToken(token)
