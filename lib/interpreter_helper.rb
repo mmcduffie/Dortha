@@ -103,7 +103,7 @@ module InterpreterHelper
 				tempArray.pop
 				tempString = ""
 				tempArray.each do |string|
-					tempString << string << " "
+					tempString << string.value << " "
 				end
 				tempString.chop! # The loop above leaves one trailing space.
 				methodList.push(tempString)
@@ -111,7 +111,7 @@ module InterpreterHelper
 			else
 				tempString = ""
 				messages.each do |string|
-					tempString << string << " "
+					tempString << string.value << " "
 				end
 				tempString.chop!
 				methodList.push(tempString)

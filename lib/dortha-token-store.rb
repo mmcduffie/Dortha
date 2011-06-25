@@ -6,26 +6,24 @@ class TokenStore
 	def tokenStore
 		@tokenStore
 	end
-	def addToken(value,line,objectType)
+	def addToken(token)
+		line = token.lineNumber
 		if @tokenStore[line]
-			addTokenToExistingLine(value,line,objectType)
+			addTokenToExistingLine(token)
 		else
-			addTokenToNewLine(value,line,objectType)
+			addTokenToNewLine(token)
 		end
 	end
-	def addTokenToNewLine(value,line,objectType)
+	def addTokenToNewLine(token)
+		line = token.lineNumber
 		lineArray = []
-		lineArray[0] = value
+		lineArray[0] = token
 		@tokenStore[line] = lineArray
-		typeArray = []
-		typeArray[0] = objectType
-		@tokenTypes[line] = typeArray
 	end
-	def addTokenToExistingLine(value,line,objectType)
+	def addTokenToExistingLine(token)
+		line = token.lineNumber
 		lineArray = @tokenStore[line]
-		lineArray.push(value)
-		typeArray = @tokenTypes[line]
-		typeArray.push(objectType)
+		lineArray.push(token)
 	end
 	def receiver(line)
 		receiver = nil

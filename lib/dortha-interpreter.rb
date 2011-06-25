@@ -26,7 +26,7 @@ class Interpreter
 		@lineCount = lineCount
 		lineCount.times do |line|
 			currentReceiver = @tokenStore.receiver(line)
-			currentReceiverType = @tokenStore.receiverType(line) # Notice we also get the object's type here.
+			currentReceiverType = currentReceiver.class # Notice we also get the object's type here.
 			currentMessages = @tokenStore.messages(line)
 			keyword = currentMessages[0] # For keyword detection.
 			if keyword == "class"

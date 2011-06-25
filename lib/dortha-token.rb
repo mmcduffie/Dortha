@@ -21,6 +21,6 @@ class Token
 		@objectType
 	end
 	def save
-		@tokenStore.addToken(@value,@lineNumber,@objectType)
+		@tokenStore.addToken(@value)
 	end
 end
