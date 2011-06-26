@@ -1,7 +1,6 @@
 class TokenStore
 	def initialize
 		@tokenStore = []
-		@tokenTypes = []
 	end
 	def tokenStore
 		@tokenStore
@@ -43,20 +42,23 @@ class TokenStore
 		end
 		return receiver
 	end
-	def receiverType(line)
-		receiverType = nil
-		if @tokenTypes[line]
-			lineArray = @tokenTypes[line]
-			receiverType = lineArray [lineArray.length - 1]
-		else
-			raise "The line provided does not exist."
-		end
-		return receiverType
-	end
 	def messages(line)
 		lineArray = @tokenStore[line]
 		temp = lineArray.clone
 		temp.pop
 		temp
+	end
+	def convertOthersToVariables
+		@tokenStore.each do |line|
+			unless line.nil?
+				lastTokenIndex = line.length - 1
+				if line[lastTokenIndex].other?
+					value = line[lastTokenIndex].value
+					lineNumber = line[lastTokenIndex].lineNumber
+					token = DorthaVariableType.new(value,lineNumber)
+					line[lastTokenIndex] = token
+				end
+			end
+		end
 	end
 end

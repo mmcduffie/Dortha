@@ -61,15 +61,6 @@ class TokenStoreTest < Test::Unit::TestCase
 		receiver = @store.receiver(3)
 		assert_equal(token2,receiver,"Receiver not what we expected.")
 	end
-	def test_receiverType
-		#@store.addToken("test1",3,"String")
-		#@store.addToken("test2",3,"String")
-		#assert_raise(RuntimeError) do
-		#	notValid = @store.receiverType(1)
-		#end
-		#receiverType = @store.receiverType(3)
-		#assert_equal("String",receiverType,"Receiver type not what we expected.")
-	end
 	def test_messages
 		token1 = DorthaStringType.new("test1",3)
 		token2 = DorthaStringType.new("test2",3)
@@ -79,5 +70,14 @@ class TokenStoreTest < Test::Unit::TestCase
 		@store.addToken(token3)
 		messages = @store.messages(3)
 		assert_equal([token1,token2],messages,"Messages not what we expected.")
+	end
+	def test_convertOthersToVariables
+		token1 = DorthaStringType.new("test1",1)
+		token2 = DorthaOtherType.new("variable",1)
+		@store.addToken(token1)
+		@store.addToken(token2)
+		@store.convertOthersToVariables
+		test = @store.tokenStore[1][1] # The second token on the first line.
+		assert_equal(true,test.variable?,"token should be of type variable")
 	end
 end
