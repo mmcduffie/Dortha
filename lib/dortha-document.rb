@@ -34,7 +34,7 @@ class Document < Array
 		tokenLength = self[lineNumber].length # Find end of Token.
 		tokenString = self[lineNumber].slice!(0,tokenLength) # Remove token from line.
 		
-		token = convertTokenToObject(tokenString,lineNumber)
+		token = convertTokenToObject(tokenString,lineNumber + 1)
 		@tokenStore.addToken(token)
 		
 		#token = Token.new(@tokenStore) # Create a new Token.
@@ -53,7 +53,7 @@ class Document < Array
 			self[lineNumber].slice!(0) # Delete them.
 		end
 		
-		token = convertTokenToObject(tokenString,lineNumber)
+		token = convertTokenToObject(tokenString,lineNumber + 1)
 		@tokenStore.addToken(token)
 		
 		#token = Token.new(@tokenStore) # Create a new Token.
@@ -73,7 +73,7 @@ class Document < Array
 		tokenStringNextToLast = tokenStringLength - 1
 		tokenString.slice!(tokenStringNextToLast..tokenStringLength) #We Don't want a quote on the end of the string for storage.
 		
-		token = DorthaStringType.new(tokenString,lineNumber)
+		token = DorthaStringType.new(tokenString,lineNumber + 1)
 		@tokenStore.addToken(token)
 		
 		#token = Token.new(@tokenStore) # Create a new Token.
@@ -91,7 +91,7 @@ class Document < Array
 		end
 		tokenString = '[' + tokenString # Put a braket back on the front of the string for storage.
 		
-		token = DorthaArrayType.new(tokenString,lineNumber)
+		token = DorthaArrayType.new(tokenString,lineNumber + 1)
 		@tokenStore.addToken(token)
 		
 		#token = Token.new(@tokenStore) # Create a new Token.

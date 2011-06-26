@@ -25,37 +25,39 @@ class Interpreter
 		@tokenStore = tokenStore
 		lineCount = @tokenStore.lineCount
 		lineCount.times do |line|
-			currentReceiver = @tokenStore.receiver(line)
-			currentReceiverType = currentReceiver.class # Notice we also get the object's type here.
-			currentMessages = @tokenStore.messages(line)
-			keyword = currentMessages[0] # For keyword detection.
-			if keyword == "class"
-				@currentClass = Klass.new(currentReceiver)
-				@currentScope = @currentClass
-			elsif keyword == "create"
-				createNew(currentReceiver,currentReceiverType,currentMessages)
-			elsif keyword == "method"
-				if currentMessages.include?("of")
-					chain = parseMethodAncestors(currentMessages)
-					chain.push(currentReceiver)
-					thisMethod = chain[0]
-					chain.delete(thisMethod)
-					@currentMethod = InstanceMethod.new(thisMethod,chain,@currentClass)
-					@currentScope = @currentMethod
-					@currentMethod.save
+			unless line == 0 
+				currentReceiver = @tokenStore.receiver(line)
+				currentReceiverType = currentReceiver.class # Notice we also get the object's type here.
+				currentMessages = @tokenStore.messages(line)
+				keyword = currentMessages[0] # For keyword detection.
+				if keyword == "class"
+					@currentClass = Klass.new(currentReceiver)
+					@currentScope = @currentClass
+				elsif keyword == "create"
+					createNew(currentReceiver,currentReceiverType,currentMessages)
+				elsif keyword == "method"
+					if currentMessages.include?("of")
+						chain = parseMethodAncestors(currentMessages)
+						chain.push(currentReceiver)
+						thisMethod = chain[0]
+						chain.delete(thisMethod)
+						@currentMethod = InstanceMethod.new(thisMethod,chain,@currentClass)
+						@currentScope = @currentMethod
+						@currentMethod.save
+					else
+						@currentMethod = InstanceMethod.new(currentReceiver,nil,@currentClass)
+						@currentScope = @currentMethod
+						@currentMethod.save
+					end
 				else
-					@currentMethod = InstanceMethod.new(currentReceiver,nil,@currentClass)
-					@currentScope = @currentMethod
-					@currentMethod.save
-				end
-			else
-				if @currentScope.class == InstanceMethod
-					currentLine = currentMessages
-					currentLine.push(currentReceiver)
-					@currentMethod.addLineToMethodBody(currentLine)
-				elsif @currentScope.class == Klass
-					messages = parseMessages(currentMessages)
-					call(messages,currentReceiver,currentReceiverType)
+					if @currentScope.class == InstanceMethod
+						currentLine = currentMessages
+						currentLine.push(currentReceiver)
+						@currentMethod.addLineToMethodBody(currentLine)
+					elsif @currentScope.class == Klass
+						messages = parseMessages(currentMessages)
+						call(messages,currentReceiver,currentReceiverType)
+					end
 				end
 			end
 		end
