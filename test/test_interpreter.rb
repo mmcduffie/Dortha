@@ -1,5 +1,6 @@
 require '../lib/dortha-interpreter.rb'
 require '../lib/dortha-document.rb'
+require '../lib/types/dortha-number-type.rb'
 require 'test/unit'
 
 class InterpreterTest < Test::Unit::TestCase
@@ -23,9 +24,8 @@ class InterpreterTest < Test::Unit::TestCase
 	end
 	def test_call
 		message = ["add 1 to"]
-		receiver = NumberType.new(1)
-		currentReceiverType = "Number"
-		testResponce = @interpreter.call(message,receiver,currentReceiverType)
+		receiver = DorthaNumberType.new(1,1)
+		testResponce = @interpreter.call(message,receiver)
 		assert_equal(receiver,testResponce,"The call method should always return the object it called.")
 	end
 	def test_callBuiltInMethod

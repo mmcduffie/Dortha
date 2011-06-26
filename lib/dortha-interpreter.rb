@@ -25,7 +25,7 @@ class Interpreter
 		@tokenStore = tokenStore
 		lineCount = @tokenStore.lineCount
 		lineCount.times do |line|
-			unless line == 0 
+			unless line == 0 # We ignore line zero because it's confusing. The lexer also doesn't put anything here.
 				currentReceiver = @tokenStore.receiver(line)
 				currentReceiverType = currentReceiver.class # Notice we also get the object's type here.
 				currentMessages = @tokenStore.messages(line)
@@ -56,15 +56,18 @@ class Interpreter
 						@currentMethod.addLineToMethodBody(currentLine)
 					elsif @currentScope.class == Klass
 						messages = parseMessages(currentMessages)
-						call(messages,currentReceiver,currentReceiverType)
+						call(messages,currentReceiver)
 					end
 				end
 			end
 		end
 	end
-	def call(messages,receiver,currentReceiverType)
-		if currentReceiverType == "methodNameOrVariable"
-			receiver = @currentObject.getValue(receiver)
+	def call(messages,receiver)
+		if receiver.other?
+			#receiver = @currentObject.getValue(receiver.value)
+			
+			# TODO - need to check for existing variables. We probobly need the
+			# interpreter to convert tokens into the 'variable' type first.
 		end
 		until messages.empty?
 			message = messages.pop
