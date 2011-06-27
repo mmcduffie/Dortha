@@ -95,6 +95,9 @@ module InterpreterHelper
 		end
 	end
 	def parseMessages(messages)
+		messages.each_with_index do |token,index|
+			messages[index] = token.value
+		end
 		methodList = []
 		until messages.empty?
 			if messages.include?("and")
@@ -103,7 +106,7 @@ module InterpreterHelper
 				tempArray.pop
 				tempString = ""
 				tempArray.each do |string|
-					tempString << string.value << " "
+					tempString << string << " "
 				end
 				tempString.chop! # The loop above leaves one trailing space.
 				methodList.push(tempString)
@@ -111,7 +114,7 @@ module InterpreterHelper
 			else
 				tempString = ""
 				messages.each do |string|
-					tempString << string.value << " "
+					tempString << string << " "
 				end
 				tempString.chop!
 				methodList.push(tempString)
