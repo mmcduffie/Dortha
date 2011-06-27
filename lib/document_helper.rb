@@ -8,7 +8,7 @@ module DocumentHelper
 	# have to be created in the interpreter.
 	def convertTokenToObject(inputString,lineNumber)
 		object = nil
-		keywords = ["class","create","method"]
+		keywords = ["class","create","method","and"]
 		if keywords.index(inputString) # keyword
 			object = DorthaKeywordType.new(inputString,lineNumber)
 			return object
