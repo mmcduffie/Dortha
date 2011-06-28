@@ -95,30 +95,16 @@ module InterpreterHelper
 		end
 	end
 	def parseMessages(messages)
-		messages.each_with_index do |token,index|
-			messages[index] = token.value
-		end
 		methodList = []
 		until messages.empty?
-			if messages.include?("and")
-				endOfString = messages.index("and")
-				tempArray = messages[0..endOfString]
-				tempArray.pop
-				tempString = ""
-				tempArray.each do |string|
-					tempString << string << " "
-				end
-				tempString.chop! # The loop above leaves one trailing space.
-				methodList.push(tempString)
-				messages.slice!(0..endOfString)
+			if firstAndIndex = messages.index { |token| token.value == "and" && token.keyword? }
+				tempArray = messages.take(firstAndIndex) # Take is not zero-indexed.
+				methodList.push(tempArray.clone) # Have to clone here our clear will delete the array.
+				tempArray.clear
+				messages = messages.drop(firstAndIndex + 1)
 			else
-				tempString = ""
-				messages.each do |string|
-					tempString << string << " "
-				end
-				tempString.chop!
-				methodList.push(tempString)
-				messages.slice!(0..messages.length) 
+				methodList.push(messages.clone)
+				messages.clear
 			end
 		end
 		return methodList

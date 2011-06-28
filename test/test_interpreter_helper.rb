@@ -34,9 +34,9 @@ class InterpreterHelperTest < Test::Unit::TestCase
 		token9 = DorthaOtherType.new("test3",1)
 		testMessages = [token1,token2,token3,token4,token5,token6,token7,token8,token9] # With and keywords.
 		test = @interpreter.parseMessages(testMessages)
-		assert_equal(["test1 bleh otherstuff","test2 bleh blah","test3"],test,"Method list not correct.")
+		assert_equal([[token1,token2,token3],[token5,token6,token7],[token9]],test,"Method list not correct.")
 		testMessages = [token1] # With only one message.
 		test = @interpreter.parseMessages(testMessages)
-		assert_equal(["test1"],test,"Method list not correct.")
+		assert_equal([[token1]],test,"Method list not correct.")
 	end
 end
