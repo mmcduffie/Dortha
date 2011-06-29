@@ -98,6 +98,9 @@ module InterpreterHelper
 		methodList = []
 		until messages.empty?
 			if firstAndIndex = messages.index { |token| token.value == "and" && token.keyword? }
+				if firstAndIndex == 0
+					raise "The and keyword cannot be the first thing on a line."
+				end
 				tempArray = messages.take(firstAndIndex) # Take is not zero-indexed.
 				methodList.push(tempArray.clone) # Have to clone here our clear will delete the array.
 				tempArray.clear

@@ -38,5 +38,9 @@ class InterpreterHelperTest < Test::Unit::TestCase
 		testMessages = [token1] # With only one message.
 		test = @interpreter.parseMessages(testMessages)
 		assert_equal([[token1]],test,"Method list not correct.")
+		assert_raise(RuntimeError) do
+			testMessages = [token4]
+			notValid = @interpreter.parseMessages(testMessages)
+		end
 	end
 end

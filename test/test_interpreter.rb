@@ -47,14 +47,15 @@ class InterpreterTest < Test::Unit::TestCase
 		assert_equal(["foo","bar","another"],chain,"The method's ancestor chain is not correct.")
 	end
 	def test_withClassKeyword
-		#testArray = ["class TestClass"] # Since class is a keyword, putting class name in quotes is not nessasary.
-		#@document = Document.new(testArray)
-		#@interpreter = Interpreter.new
-		#@document.parse
-		#lineCount = @document.lineCount
-		#@interpreter.interpret(@document.tokenStore,lineCount)
-		#test = @interpreter.currentClass.className
-		#assert_equal("TestClass",test,"The class we created should have the name we expect.")
+		klass = DorthaKeywordType.new("class",1)
+		testClass = DorthaStringType.new("testClass",1)
+		testArray = [klass,testClass]
+		@document = Document.new(testArray)
+		@interpreter = Interpreter.new
+		lineCount = @document.lineCount
+		@interpreter.interpret(@document.tokenStore)
+		test = @interpreter.currentClass.className
+		assert_equal("class",test,"The class we created should have the name we expect.")
 	end
 	def test_withMethodKeyword
 		#testArray = ["method TestMethod","test1 NextTest","anotherTest"]
