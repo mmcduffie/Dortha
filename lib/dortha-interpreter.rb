@@ -31,33 +31,35 @@ class Interpreter
 				currentReceiverType = currentReceiver.class # Notice we also get the object's type here.
 				currentMessages = @tokenStore.messages(line)
 				keyword = currentMessages[0] # For keyword detection.
-				if keyword == "class"
-					@currentClass = Klass.new(currentReceiver)
-					@currentScope = @currentClass
-				elsif keyword == "create"
-					createNew(currentReceiver,currentReceiverType,currentMessages)
-				elsif keyword == "method"
-					if currentMessages.include?("of")
-						chain = parseMethodAncestors(currentMessages)
-						chain.push(currentReceiver)
-						thisMethod = chain[0]
-						chain.delete(thisMethod)
-						@currentMethod = InstanceMethod.new(thisMethod,chain,@currentClass)
-						@currentScope = @currentMethod
-						@currentMethod.save
+				if keyword.keyword?
+					if keyword.value == "class"
+						@currentClass = Klass.new(currentReceiver)
+						@currentScope = @currentClass
+					elsif keyword.value == "create"
+						createNew(currentReceiver,currentReceiverType,currentMessages)
+					elsif keyword.value == "method"
+						if currentMessages.include?("of")
+							chain = parseMethodAncestors(currentMessages)
+							chain.push(currentReceiver)
+							thisMethod = chain[0]
+							chain.delete(thisMethod)
+							@currentMethod = InstanceMethod.new(thisMethod,chain,@currentClass)
+							@currentScope = @currentMethod
+							@currentMethod.save
+						else
+							@currentMethod = InstanceMethod.new(currentReceiver,nil,@currentClass)
+							@currentScope = @currentMethod
+							@currentMethod.save
+						end
 					else
-						@currentMethod = InstanceMethod.new(currentReceiver,nil,@currentClass)
-						@currentScope = @currentMethod
-						@currentMethod.save
-					end
-				else
-					if @currentScope.class == InstanceMethod
-						currentLine = currentMessages
-						currentLine.push(currentReceiver)
-						@currentMethod.addLineToMethodBody(currentLine)
-					elsif @currentScope.class == Klass
-						messages = parseMessages(currentMessages)
-						call(messages,currentReceiver)
+						if @currentScope.class == InstanceMethod
+							currentLine = currentMessages
+							currentLine.push(currentReceiver)
+							@currentMethod.addLineToMethodBody(currentLine)
+						elsif @currentScope.class == Klass
+							messages = parseMessages(currentMessages)
+							call(messages,currentReceiver)
+						end
 					end
 				end
 			end
@@ -72,8 +74,12 @@ class Interpreter
 		end
 		until messages.empty?
 			message = messages.pop
+			messageAsString = ""
+			message.each_with_index do |token,index|
+				messageAsString << token.value
+			end
 			@builtInMethodList.each_with_index do |method,index|
-				if message.match(method)
+				if messageAsString.match(method)
 					methodName = @builtInMethodNames[index]
 					arguments = parseMethodArguments(method,message)
 					callBuiltInMethod(methodName,arguments,receiver)

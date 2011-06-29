@@ -23,10 +23,14 @@ class InterpreterTest < Test::Unit::TestCase
 		assert_equal("main",test,"Base object should be named \"main\"")
 	end
 	def test_call
-		message = ["add 1 to"]
+		token1 = DorthaOtherType.new("add",1)
+		token2 = DorthaNumberType.new("1",1)
+		token3 = DorthaOtherType.new("to",1)
+		message = [[token1,token2,token3]]
 		receiver = DorthaNumberType.new(1,1)
 		testResponce = @interpreter.call(message,receiver)
 		assert_equal(receiver,testResponce,"The call method should always return the object it called.")
+		# TODO - More assertions? Like test calling a built-in method from here?
 	end
 	def test_callBuiltInMethod
 		number = NumberType.new(1)
@@ -58,12 +62,12 @@ class InterpreterTest < Test::Unit::TestCase
 		assert_equal("class",test,"The class we created should have the name we expect.")
 	end
 	def test_withMethodKeyword
-		#testArray = ["method TestMethod","test1 NextTest","anotherTest"]
-		#@document = Document.new(testArray)
-		#@interpreter = Interpreter.new
-		#@document.parse
-		#lineCount = @document.lineCount
-		#@interpreter.interpret(@document.tokenStore,lineCount)
+		testArray = ["method TestMethod","test1 NextTest","anotherTest"]
+		@document = Document.new(testArray)
+		@interpreter = Interpreter.new
+		@document.parse
+		lineCount = @document.lineCount
+		#@interpreter.interpret(@document.tokenStore)
 		#testMethod = @interpreter.currentClass.instanceMethods[0]
 		#test = testMethod.methodName
 		#assert_equal("TestMethod",test,"The method we created should have the name we expect.")
