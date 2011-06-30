@@ -6,6 +6,7 @@
 class DorthaBaseType
 	def initialize
 		@value = nil
+		@name = nil
 		@lineNumber = nil
 	end
 	def number?
@@ -31,6 +32,12 @@ class DorthaBaseType
 	end
 	def value
 		@value
+	end
+	def name=(name)
+		@name = name
+	end
+	def name
+		@name
 	end
 	def lineNumber=(lineNumber)
 		@lineNumber = lineNumber

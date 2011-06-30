@@ -19,16 +19,8 @@ class TokenTest < Test::Unit::TestCase
 		@token.objectType = "String"
 		assert_equal("String",@token.objectType,"Token type is incorrect.")
 	end
-	def test_save
-		#@token.lineNumber = 1
-		#@token.value = "foo"
-		#@token.save
-		#testToken = @store.tokenStore[1][0] # Line 2, Token 1.
-		#assert_equal("foo",testToken,"The token should be 'foo'")
-		#@token.lineNumber = 2
-		#@token.value = "bar"
-		#@token.save
-		#testToken = @store.tokenStore[2][0] # Line 3, Token 1.
-		#assert_equal("bar",testToken,"The token should be 'bar'")
+	def test_name
+		@token.name = "test"
+		assert_equal("test",@token.name,"Token name is incorrect.")
 	end
 end
