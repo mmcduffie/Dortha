@@ -10,7 +10,7 @@ class GlobalSymbolTableTest < Test::Unit::TestCase
 		@table = GlobalSymbolTable.new
 	end
 	def test_addVariable
-		token = DorthaVariableType.new("globalVariable",1)
+		token = DorthaNumberType.new(1,1)
 		@table.addVariable(token)
 	end
 	def test_lookup

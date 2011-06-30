@@ -2,8 +2,8 @@ class GlobalSymbolTable
 	def initialize
 		@table = []
 	end
-	def addVariable(value)
-		@table.push(value)
+	def addVariable(object)
+		@table.push(object)
 	end
 	def lookup(name)
 		found = nil

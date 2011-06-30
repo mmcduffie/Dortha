@@ -23,4 +23,13 @@ class DorthaNumberTypeTest < Test::Unit::TestCase
 		test = @number.value
 		assert_equal(1,test,"This number object should have the value we set.")
 	end
+	def test_invalid_input
+		assert_raise(ArgumentError) do
+			notValid = DorthaNumberType.new("foo",1)
+		end
+		valid = DorthaNumberType.new("0",1)
+		assert_equal(0,valid.value)
+		valid = DorthaNumberType.new("1",1)
+		assert_equal(1,valid.value)
+	end
 end
