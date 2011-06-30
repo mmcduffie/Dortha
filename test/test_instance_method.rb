@@ -4,7 +4,8 @@ require 'test/unit'
 class InstanceMethodTest < Test::Unit::TestCase
 	def setup
 		@klass = Klass.new("test")
-		@method = InstanceMethod.new("foo",nil,@klass)
+		object = DorthaStringType.new("foo",1)
+		@method = InstanceMethod.new(object,nil,@klass)
 	end
 	def test_klass
 		@testClass = @method.klass
@@ -14,25 +15,34 @@ class InstanceMethodTest < Test::Unit::TestCase
 	def test_methodAncestors
 		@klass = Klass.new("test")
 		chain = ["a","chain","with","methods"]
-		@method = InstanceMethod.new("foo",chain,@klass)
+		object = DorthaStringType.new("foo",1)
+		@method = InstanceMethod.new(object,chain,@klass)
 		test = @method.methodAncestors
 		assert_equal(["a","chain","with","methods"],test,"Ancestor chain not what we set it to.")
 	end
 	def test_methodName
 		test = @method.methodName
-		assert_equal("foo",test,"Name of function not what we set it to.")
+		assert_equal("foo",test,"Name of method not what we set it to.")
+		assert_raise(RuntimeError) do
+			object = DorthaNumberType.new(1,1)
+			badMethod = InstanceMethod.new(object,nil,@klass)
+		end
 	end
 	def test_methodRegexp
-		@method = InstanceMethod.new("this _ a _",nil,"test")
+		object = DorthaStringType.new("this _ a _",1)
+		@method = InstanceMethod.new(object,nil,"test")
 		test = @method.methodRegexp
 		assert_equal(/this .* a .*/,test,"Returned regexp not what we expected.")
 	end
 	def test_makeMethodRegexp
-		test = @method.makeMethodRegexp("foo")
+		object = DorthaStringType.new("foo",1)
+		test = @method.makeMethodRegexp(object)
 		assert_equal("foo",test,"When method name has no underscores, this should return what it recived.")
-		test = @method.makeMethodRegexp("add _ to")
+		object = DorthaStringType.new("add _ to",1)
+		test = @method.makeMethodRegexp(object)
 		assert_equal(/add .* to/,test,"This call should return a regexp object of the expected format.")
-		test = @method.makeMethodRegexp(" _ my face _ with")
+		object = DorthaStringType.new(" _ my face _ with",1)
+		test = @method.makeMethodRegexp(object)
 		assert_equal(/ .* my face .* with/,test,"This call should return a regexp object of the expected format.")
 	end
 	def test_methodBody

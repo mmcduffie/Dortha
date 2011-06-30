@@ -62,16 +62,16 @@ class InterpreterTest < Test::Unit::TestCase
 		assert_equal("class",test,"The class we created should have the name we expect.")
 	end
 	def test_withMethodKeyword
-		testArray = ["method TestMethod","test1 NextTest","anotherTest"]
+		testArray = ["method \"TestMethod\"","test1 NextTest","anotherTest"]
 		@document = Document.new(testArray)
 		@interpreter = Interpreter.new
 		@document.parse
 		lineCount = @document.lineCount
-		#@interpreter.interpret(@document.tokenStore)
-		#testMethod = @interpreter.currentClass.instanceMethods[0]
-		#test = testMethod.methodName
-		#assert_equal("TestMethod",test,"The method we created should have the name we expect.")
-		#test = testMethod.methodBody
+		@interpreter.interpret(@document.tokenStore)
+		testMethod = @interpreter.currentClass.instanceMethods[0]
+		test = testMethod.methodName
+		assert_equal("TestMethod",test,"The method we created should have the name we expect.")
+		test = testMethod.methodBody
 		#assert_equal([["test1","NextTest"],["anotherTest"]],test,"The method we created should have the content we expect.")
 	end
 	def test_nestedMethodRecognition

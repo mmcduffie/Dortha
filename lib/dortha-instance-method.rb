@@ -4,7 +4,10 @@
 
 class InstanceMethod
 	def initialize(methodName,ancestors,klass)
-		@methodName = methodName
+		unless methodName.string?
+			raise "Method name must be a string! Method names must be enclosed in quotes."
+		end
+		@methodName = methodName.value
 		@methodRegexp = makeMethodRegexp(methodName)
 		@methodBody = []
 		@methodAncestors = ancestors
@@ -23,6 +26,7 @@ class InstanceMethod
 		@methodRegexp
 	end
 	def makeMethodRegexp(givenName)
+		givenName = givenName.value
 		if givenName.include?("_")
 			regexp = givenName.gsub(/_/,".*")
 			return Regexp.new(regexp)

@@ -51,15 +51,15 @@ class Interpreter
 							@currentScope = @currentMethod
 							@currentMethod.save
 						end
-					else
-						if @currentScope.class == InstanceMethod
-							currentLine = currentMessages
-							currentLine.push(currentReceiver)
-							@currentMethod.addLineToMethodBody(currentLine)
-						elsif @currentScope.class == Klass
-							messages = parseMessages(currentMessages)
-							call(messages,currentReceiver)
-						end
+					end
+				else
+					if @currentScope.class == InstanceMethod
+						currentLine = currentMessages
+						currentLine.push(currentReceiver)
+						@currentMethod.addLineToMethodBody(currentLine)
+					elsif @currentScope.class == Klass
+						messages = parseMessages(currentMessages)
+						call(messages,currentReceiver)
 					end
 				end
 			end
