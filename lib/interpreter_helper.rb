@@ -93,6 +93,7 @@ module InterpreterHelper
 			messages.delete("method")
 			messages.delete("of")
 			chain = messages
+			puts chain
 			return chain
 		else
 			raise "Method declaration not provided in the correct format"

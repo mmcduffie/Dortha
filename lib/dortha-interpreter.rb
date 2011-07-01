@@ -40,7 +40,7 @@ class Interpreter
 					elsif keyword.value == "method"
 						childMethod = false
 						currentMessages.each do |object|
-							if object.value = "of"
+							if object.value == "of"
 								childMethod = true
 							end
 						end
