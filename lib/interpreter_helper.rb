@@ -84,20 +84,25 @@ module InterpreterHelper
 		end
 		return argumentArray
 	end
-	def parseMethodAncestors(messageObjects)
-		messages = []
-		messageObjects.each do |object|
-			messages.push(object.value)
+	def parseMethodAncestors(messages)
+		chain = []
+		ofKeywordPresent = false
+		messages.each do |message|
+			value = message.value
+			if value == "of"
+				ofKeywordPresent = true
+			end
 		end
-		if messages[0] == "method" && messages.include?("of")
-			messages.delete("method")
-			messages.delete("of")
-			chain = messages
-			puts chain
-			return chain
+		if messages[0].value == "method" && ofKeywordPresent == true
+			messages.each do |object|
+				unless object.value == "method" || object.value == "of"
+					chain.push(object)
+				end
+			end
 		else
 			raise "Method declaration not provided in the correct format"
 		end
+		return chain
 	end
 	def parseMessages(messages)
 		methodList = []

@@ -2,6 +2,16 @@ require '../lib/interpreter_helper.rb'
 require '../lib/dortha-object.rb'
 require '../lib/built_in_methods.rb'
 
+class Array
+	def stringify
+		returnArray = []
+		self.each do |object|
+			returnArray.push(object.value)
+		end
+		return returnArray
+	end
+end
+
 class Interpreter
 	include InterpreterHelper
 	include BuiltInMethods

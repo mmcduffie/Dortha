@@ -43,4 +43,12 @@ class InterpreterHelperTest < Test::Unit::TestCase
 			notValid = @interpreter.parseMessages(testMessages)
 		end
 	end
+	def test_stringify
+		token1 = DorthaStringType.new("test1",1)
+		token2 = DorthaStringType.new("test2",1)
+		token3 = DorthaStringType.new("test3",1)
+		testArray = [token1,token2,token3]
+		testResult = testArray.stringify
+		assert_equal(["test1","test2","test3"],testResult,"returned array not correct.")
+	end
 end
