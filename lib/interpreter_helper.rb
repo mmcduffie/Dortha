@@ -84,7 +84,11 @@ module InterpreterHelper
 		end
 		return argumentArray
 	end
-	def parseMethodAncestors(messages)
+	def parseMethodAncestors(messageObjects)
+		messages = []
+		messageObjects.each do |object|
+			messages.push(object.value)
+		end
 		if messages[0] == "method" && messages.include?("of")
 			messages.delete("method")
 			messages.delete("of")

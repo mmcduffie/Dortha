@@ -38,7 +38,13 @@ class Interpreter
 					elsif keyword.value == "create"
 						createNew(currentReceiver,currentReceiverType,currentMessages)
 					elsif keyword.value == "method"
-						if currentMessages.include?("of")
+						childMethod = false
+						currentMessages.each do |object|
+							if object.value = "of"
+								childMethod = true
+							end
+						end
+						if childMethod == true
 							chain = parseMethodAncestors(currentMessages)
 							chain.push(currentReceiver)
 							thisMethod = chain[0]
