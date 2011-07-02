@@ -10,6 +10,15 @@ class Array
 		end
 		return returnArray
 	end
+	def includesValue?(value)
+		returnValue = false
+		self.each do |object|
+			if object.value == value
+				returnValue = true
+			end
+		end
+		return returnValue
+	end
 end
 
 class Interpreter
@@ -17,7 +26,7 @@ class Interpreter
 	include BuiltInMethods
 	def initialize
 		@instance = Klass.new("class") # Base class.
-		@currentObject = Thing.new("main") # Base object
+		@currentObject = Thing.new("main") # Base object.
 		@currentObject.klass = "class"
 		@builtInMethodList = [/add .* to/,/subtract .* from/,/say/]
 		@builtInMethodNames = ["add","subtract","say"]

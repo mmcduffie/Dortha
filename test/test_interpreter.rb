@@ -9,6 +9,28 @@ class InterpreterTest < Test::Unit::TestCase
 		@document = Document.new(testArray)
 		@interpreter = Interpreter.new
 	end
+	
+	# These tests are for methods that monkey-patch the Ruby Array class.
+	
+	def test_stringify
+		token1 = DorthaStringType.new("test1",1)
+		token2 = DorthaStringType.new("test2",1)
+		token3 = DorthaStringType.new("test3",1)
+		testArray = [token1,token2,token3]
+		testResult = testArray.stringify
+		assert_equal(["test1","test2","test3"],testResult,"returned array not correct.")
+	end
+	def test_includesValue?
+		token1 = DorthaStringType.new("test1",1)
+		token2 = DorthaStringType.new("test2",1)
+		token3 = DorthaStringType.new("test3",1)
+		testArray = [token1,token2,token3]
+		test = testArray.includesValue?("test2")
+		assert_equal(true,test,"includesValue? should return true if object of given value is found in target array.")
+		test = testArray.includesValue?("foo")
+		assert_equal(false,test,"includesValue? should return false if object of given value is not found.")
+	end
+	
 	def test_interpret
 		@document.parse
 		@interpreter.interpret(@document.tokenStore)

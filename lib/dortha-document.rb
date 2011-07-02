@@ -1,4 +1,10 @@
 require '../lib/document_helper.rb'
+require '../lib/types/dortha-array-type.rb'
+require '../lib/types/dortha-keyword-type.rb'
+require '../lib/types/dortha-number-type.rb'
+require '../lib/types/dortha-string-type.rb'
+require '../lib/types/dortha-other-type.rb'
+require '../lib/types/dortha-variable-type.rb'
 
 class Document < Array
 	include DocumentHelper
@@ -33,15 +39,8 @@ class Document < Array
 	def stripSingleToken(lineNumber)
 		tokenLength = self[lineNumber].length # Find end of Token.
 		tokenString = self[lineNumber].slice!(0,tokenLength) # Remove token from line.
-		
 		token = convertTokenToObject(tokenString,lineNumber + 1)
 		@tokenStore.addToken(token)
-		
-		#token = Token.new(@tokenStore) # Create a new Token.
-		#token.lineNumber = lineNumber # Set it's line number.
-		#token.value = tokenString # Set it's value.
-		#token.objectType = "methodNameOrVariable"
-		#token.save # Persist the token to the TokenStore.
 	end
 	def stripPlainToken(lineNumber)
 		tokenLength = self[lineNumber].index(/\s/) # Find end of Token (indicated by whitespace).
@@ -52,15 +51,8 @@ class Document < Array
 		while self[lineNumber].match(/^\s/) # If characters after token are whitespace...
 			self[lineNumber].slice!(0) # Delete them.
 		end
-		
 		token = convertTokenToObject(tokenString,lineNumber + 1)
 		@tokenStore.addToken(token)
-		
-		#token = Token.new(@tokenStore) # Create a new Token.
-		#token.lineNumber = lineNumber # Set it's line number.
-		#token.value = tokenString # Set it's value.
-		#token.objectType = "methodNameOrVariable"
-		#token.save # Persist the token to the TokenStore.
 	end
 	def stripQuotedToken(lineNumber)
 		self[lineNumber].slice!(0) # Remove leading quote.
@@ -72,15 +64,8 @@ class Document < Array
 		tokenStringLength = tokenString.length
 		tokenStringNextToLast = tokenStringLength - 1
 		tokenString.slice!(tokenStringNextToLast..tokenStringLength) #We Don't want a quote on the end of the string for storage.
-		
 		token = DorthaStringType.new(tokenString,lineNumber + 1)
 		@tokenStore.addToken(token)
-		
-		#token = Token.new(@tokenStore) # Create a new Token.
-		#token.lineNumber = lineNumber # Set it's line number.
-		#token.value = tokenString # Set it's value.
-		#token.objectType = "String"
-		#token.save # Persist the token to the TokenStore.
 	end
 	def stripBraketedToken(lineNumber)
 		self[lineNumber].slice!(0) # Remove leading braket.
@@ -90,14 +75,7 @@ class Document < Array
 			self[lineNumber].slice!(0) # Delete them.
 		end
 		tokenString = '[' + tokenString # Put a braket back on the front of the string for storage.
-		
 		token = DorthaArrayType.new(tokenString,lineNumber + 1)
 		@tokenStore.addToken(token)
-		
-		#token = Token.new(@tokenStore) # Create a new Token.
-		#token.lineNumber = lineNumber # Set it's line number.
-		#token.value = tokenString # Set it's value.
-		#token.objectType = "Array"
-		#token.save # Persist the token to the TokenStore.
 	end
 end

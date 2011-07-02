@@ -6,6 +6,9 @@ module BuiltInMethods
 		args[1].value = result
 	end
 	def say(args)
+		if args.nil?
+			puts "nil"
+		end
 		whatToSay = args[1]
 		puts whatToSay.value
 	end

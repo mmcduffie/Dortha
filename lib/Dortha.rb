@@ -23,5 +23,4 @@ end
 
 document.parse
 interpreter = Interpreter.new
-lineCount = document.lineCount
-interpreter.interpret(document.tokenStore,lineCount)
+interpreter.interpret(document.tokenStore)

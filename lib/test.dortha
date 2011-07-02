@@ -1,3 +1,1 @@
-create variable number 5
-add 5 to number
-say number
+say "Hello World"
