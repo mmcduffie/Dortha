@@ -43,7 +43,7 @@ class Interpreter
 	def interpret(tokenStore)
 		@tokenStore = tokenStore
 		@tokenStore.convertOthersToVariables # It's awkward, but we have to call this here since the lexer doesn't mark variables.
-		lineCount = @tokenStore.lineCount
+		lineCount = @tokenStore.lineCount #+ 1
 		lineCount.times do |line|
 			unless line == 0 # We ignore line zero because it's confusing. The lexer also doesn't put anything here.
 				currentReceiver = @tokenStore.receiver(line)
