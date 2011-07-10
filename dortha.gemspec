@@ -8,5 +8,6 @@ Gem::Specification.new do |spec|
   spec.homepage = 'http://www.marcusmcduffie.com/'
   
   spec.files = Dir['lib/**/*.rb'] + Dir['bin/*']
+  spec.executables << 'dortha'
   spec.add_dependency('rake')
 end

@@ -1,1 +1,11 @@
 #!/usr/bin/env ruby
+
+if ARGV.empty?
+  raise "No input file specified. Usage: dortha [source file name]" # Throw an exception if no source file given.
+end
+
+document = []
+
+ARGF.each_line do |line|
+  document[ARGF.lineno] = line
+end
