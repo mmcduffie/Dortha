@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.email = 'whitehatpsycho@gmail.com'
   spec.homepage = 'http://www.marcusmcduffie.com/'
   
-  spec.files = Dir['lib/**/*.rb'] + Dir['bin/*']
+  spec.files = Dir['README','LICENSE','bin/dortha','lib/**/*.rb']
   spec.executables << 'dortha'
   spec.add_dependency('rake')
 end
