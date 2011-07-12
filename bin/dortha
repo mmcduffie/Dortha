@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+require '../lib/dortha'
 
 if ARGV.empty?
   raise "No input file specified. Usage: dortha [source file name]" # Throw an exception if no source file given.
