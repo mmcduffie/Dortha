@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
-require '../lib/dortha'
+require 'rubygems'
+require 'dortha'
 
 if ARGV.empty?
   raise "No input file specified. Usage: dortha [source file name]" # Throw an exception if no source file given.
@@ -11,4 +12,4 @@ ARGF.each_line do |line|
   source_file[ARGF.lineno] = line
 end
 
-puts source_file.inspect
+Dortha::Document.new(source_file)
