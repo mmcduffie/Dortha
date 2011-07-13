@@ -5,8 +5,10 @@ if ARGV.empty?
   raise "No input file specified. Usage: dortha [source file name]" # Throw an exception if no source file given.
 end
 
-document = []
+source_file = []
 
 ARGF.each_line do |line|
-  document[ARGF.lineno] = line
+  source_file[ARGF.lineno] = line
 end
+
+puts source_file.inspect
