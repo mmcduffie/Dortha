@@ -7,5 +7,8 @@ module Dortha
     def initialize(source_file)
       super
     end
+    def strip_single_token(line_number)
+      
+    end
   end
 end

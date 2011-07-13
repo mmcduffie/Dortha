@@ -8,5 +8,5 @@ module Dortha
     VERSION
   end
   autoload :Document, "dortha/document"
-  autoload :TokenStore, "dortha/token_store"
+  autoload :Token, "dortha/token"
 end
