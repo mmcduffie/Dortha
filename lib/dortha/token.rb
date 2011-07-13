@@ -5,8 +5,8 @@ module Dortha
   # these token objects into objects of other types.
   class Token
     # Value represents the data contained on each token object. These may be
-	# numbers, keywords, or variable symbols, but the interpreter will decide
-	# that when it reads each token.
+    # numbers, keywords, or variable symbols, but the interpreter will decide
+    # that when it reads each token.
     attr_accessor :value
   end
 end
