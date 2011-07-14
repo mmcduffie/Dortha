@@ -5,20 +5,33 @@ class DocumentTest < Test::Unit::TestCase
     test_array = [nil,"  test1 nexttTest1","test2 \"nextTest2\"","test3 [nextTest3]"] # Notice leading spaces. Also notice first element is nil.
 	@document = Dortha::Document.new(test_array)
   end
+  def test_lex
+    before_test = @document
+    @document.lex
+  end
   def test_convert_lines_to_arrays
-    @document.convert_lines_to_arrays
+    def @document.fake_convert_lines_to_arrays
+	  convert_lines_to_arrays
+	end
+    @document.fake_convert_lines_to_arrays
 	assert_equal [[nil],["  test1 nexttTest1"],["test2 \"nextTest2\""],["test3 [nextTest3]"]], @document
   end
   def test_strip_single_token
     test_line = [[nil],['Token']]
 	@document = Dortha::Document.new(test_line)
-	test = @document.strip_single_token(1)
+	def @document.fake_strip_single_token(*args)
+	  strip_single_token(*args)
+	end
+	test = @document.fake_strip_single_token(1)
 	assert_equal "Token", @document[1][0].value, "Token string on line should be replaced with a Token object."
   end
   def test_strip_plain_token
-    test_line = [nil,'Token  AnotherToken'] # Notice there are two spaces in the middle of this line.
+    test_line = [[nil],['Token  AnotherToken']] # Notice there are two spaces in the middle of this line.
 	@document = Dortha::Document.new(test_line)
-	test = @document.strip_plain_token(1)
-	#assert_equal "Token", @document[1][0].value, "Token string on line should be replaced with a Token object."
+	def @document.fake_strip_plain_token(*args)
+	  strip_plain_token(*args)
+	end
+	test = @document.fake_strip_plain_token(1)
+	assert_equal "Token", @document[1][1].value, "Token string on line should be replaced with a Token object."
   end
 end
