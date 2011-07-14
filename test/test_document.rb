@@ -8,8 +8,7 @@ class DocumentTest < Test::Unit::TestCase
   def test_lex
     before_test = @document
     @document.lex
-	puts @document.inspect
-	# TODO - Why aren't the tokens always in order?
+    # TODO - need to create String class and make quoted strings create String objects.
   end
   def test_convert_lines_to_arrays
     def @document.fake_convert_lines_to_arrays
@@ -18,6 +17,15 @@ class DocumentTest < Test::Unit::TestCase
     @document.fake_convert_lines_to_arrays
     assert_equal [[nil],["  test1 nexttTest1"],["test2 \"nextTest2\""],["test3 nextTest3"]], @document
   end
+  def test_add_token
+    @document = Dortha::Document.new([[nil],[]])
+    def @document.fake_add_token(*args)
+      add_token(*args)
+    end
+    @document.fake_add_token("test",1)
+    test = @document[1][0]
+    assert_equal "test", test.value, "Token value not correct."
+  end
   def test_strip_single_token
     test_line = [[nil],['Token']]
     @document = Dortha::Document.new(test_line)
@@ -25,7 +33,7 @@ class DocumentTest < Test::Unit::TestCase
       strip_single_token(*args)
     end
     test = @document.fake_strip_single_token(1)
-    assert_equal "Token", @document[1][0].value, "Token string on line should be replaced with a Token object."
+    assert_equal "Token", @document[1][1].value, "Token string on line should be replaced with a Token object."
   end
   def test_strip_plain_token
     test_line = [[nil],['Token  AnotherToken']] # Notice there are two spaces in the middle of this line.

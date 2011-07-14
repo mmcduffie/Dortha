@@ -46,13 +46,19 @@ module Dortha
         end
       end
     
+      # add_token takes a string and converts it to a token object. Then, it pushes
+      # the object back unto the line.
+      def add_token(token_string,line_number)
+        token = Dortha::Token.new(token_string,line_number)
+        self[line_number].push(token)
+      end
+    
       # strip_single_token is used when there is only one word on a given line.
       # the word is removed from the line and replaced with a Token object.
       def strip_single_token(line_number)
         line = self[line_number]
         token_string = line[0].slice!(0,line[0].length)
-        token = Dortha::Token.new(token_string,line_number)
-        line[0] = token
+        add_token(token_string,line_number)
       end
     
       # strip_plain_token is used when a line contains more than one token that is
@@ -63,8 +69,7 @@ module Dortha
         space_index = line[0].index(/\s/)
         token_string = line[0].slice!(0,space_index)
         line[0].lstrip!
-        token = Dortha::Token.new(token_string,line_number)
-        line.push(token)
+        add_token(token_string,line_number)
       end
       
       # strip_quoted_token is used when the string we are converting to objects starts 
@@ -79,8 +84,7 @@ module Dortha
         token_string = line[0].slice!(0,ending_quote + 1)
         line[0].lstrip!
         token_string.chomp!(34.chr)
-        token = Dortha::Token.new(token_string,line_number)
-        line.push(token)
+        add_token(token_string,line_number)
       end
   end
 end
