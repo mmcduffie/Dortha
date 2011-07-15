@@ -18,13 +18,7 @@ module Dortha
           line_string = line[0]
           line_string.lstrip!
           until line_string.empty?
-            if line_string.match(/^\"/)
-              strip_quoted_token(line_number)
-            elsif line_string.match(/\s/)
-              strip_plain_token(line_number)
-            else
-              strip_single_token(line_number)
-            end
+            strip_and_add_tokens(line_string,line_number)
           end
           line.shift
         end
@@ -38,6 +32,20 @@ module Dortha
       # it should reflect the total number of lines in the source file.
       attr_accessor :line_count
 
+      # strip_and_add_tokens is a small but important factor in the work that the lex
+      # method does. it is responsible for removing parts of the original strings from
+      # each line in the source file, converting them into tokens, and then pushing them
+      # back unto the Document array.
+      def strip_and_add_tokens(line_string,line_number)
+        if line_string.match(/^\"/)
+          strip_quoted_token(line_number)
+        elsif line_string.match(/\s/)
+          strip_plain_token(line_number)
+        else
+          strip_single_token(line_number)
+        end
+      end
+      
       # add_token takes a string and converts it to a token object. Then, it pushes
       # the object back unto the line.
       def add_token(token_string,line_number,string=false)
