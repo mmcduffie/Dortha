@@ -15,17 +15,18 @@ module Dortha
       convert_lines_to_arrays
       self.each_with_index do |line,line_number|
         unless line_number == 0
-          line = line[0]
-          line.lstrip!
-          until line.empty?
-            if line.match(/^\"/)
+          line_string = line[0]
+          line_string.lstrip!
+          until line_string.empty?
+            if line_string.match(/^\"/)
               strip_quoted_token(line_number)
-            elsif line.match(/\s/)
+            elsif line_string.match(/\s/)
               strip_plain_token(line_number)
             else
               strip_single_token(line_number)
             end
           end
+          line.shift
         end
         @line_count += 1
       end
@@ -48,11 +49,15 @@ module Dortha
     
       # add_token takes a string and converts it to a token object. Then, it pushes
       # the object back unto the line.
-      def add_token(token_string,line_number)
-        token = Dortha::Token.new(token_string,line_number)
+      def add_token(token_string,line_number,string=false)
+        if string
+          token = Dortha::String.new(token_string,line_number)
+        else
+          token = Dortha::Token.new(token_string,line_number)
+        end
         self[line_number].push(token)
       end
-    
+      
       # strip_single_token is used when there is only one word on a given line.
       # the word is removed from the line and replaced with a Token object.
       def strip_single_token(line_number)
@@ -84,7 +89,7 @@ module Dortha
         token_string = line[0].slice!(0,ending_quote + 1)
         line[0].lstrip!
         token_string.chomp!(34.chr)
-        add_token(token_string,line_number)
+        add_token(token_string,line_number,true)
       end
   end
 end

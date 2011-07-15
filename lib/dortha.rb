@@ -9,4 +9,5 @@ module Dortha
   end
   autoload :Document, "dortha/document"
   autoload :Token, "dortha/token"
+  autoload :String, "dortha/types/string"
 end
