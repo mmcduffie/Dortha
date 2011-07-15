@@ -12,7 +12,7 @@ module Dortha
     # The lex method is a lexer that takes all of the lines in the source file and 
     # converts each word into a Token object.
     def lex
-      convert_lines_to_arrays
+      self.map! {|line| line = [line] }
       self.each_with_index do |line,line_number|
         unless line_number == 0
           line_string = line[0]
@@ -37,16 +37,7 @@ module Dortha
       # line_count is incremented by the lexer as it converts lines to token objects.
       # it should reflect the total number of lines in the source file.
       attr_accessor :line_count
-      
-      # convert_lines_to_arrays takes every line of the Document (with each line
-      # being an element in the Document array) and turns it into an array containing
-      # only that line as a string.
-      def convert_lines_to_arrays
-        self.each_with_index do |line,index|
-          self[index] = [line]
-        end
-      end
-    
+
       # add_token takes a string and converts it to a token object. Then, it pushes
       # the object back unto the line.
       def add_token(token_string,line_number,string=false)

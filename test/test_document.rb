@@ -19,14 +19,6 @@ class DocumentTest < Test::Unit::TestCase
     assert_equal ["test1", "test2", "test3"], test_array, "the lexed document is not what we expected."
   end
   
-  def test_convert_lines_to_arrays
-    def @document.fake_convert_lines_to_arrays
-      convert_lines_to_arrays
-    end
-    @document.fake_convert_lines_to_arrays
-    assert_equal [[nil],["  test1 nexttTest1"],["test2 \"nextTest2\""],["test3 nextTest3"]], @document
-  end
-  
   def test_add_token
     @document = Dortha::Document.new([[nil],[]])
     def @document.fake_add_token(*args)
