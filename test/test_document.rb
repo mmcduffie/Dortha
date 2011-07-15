@@ -7,6 +7,12 @@ class DocumentTest < Test::Unit::TestCase
     @document = Dortha::Document.new(test_array)
   end
   
+  def test_without_nil
+    test_array = ["test1"]
+    @document = Dortha::Document.new(test_array)
+    assert_equal @document, [nil, "test1"], "When no leading nil is present, it should be inserted."
+  end
+  
   def test_lex
     test_array = []
     @document.lex

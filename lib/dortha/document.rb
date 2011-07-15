@@ -6,6 +6,9 @@ module Dortha
     # super in our initializer for it to create an Array with our data.
     def initialize(source_file)
       super
+      unless self[0] == nil || self[0] == [nil]
+        self.unshift(nil)
+      end
       @line_count = 0
     end
     
