@@ -12,4 +12,4 @@ ARGF.each_line do |line|
   source_file[ARGF.lineno] = line
 end
 
-Dortha::Document.new(source_file)
+Dortha.execute(source_file)
