@@ -6,8 +6,13 @@ module Dortha
   VERSION = '0.0.0'
   
   autoload :Document, "dortha/document"
+  autoload :Program, "dortha/program"
+  autoload :Line, "dortha/line"
   autoload :Token, "dortha/token"
   autoload :String, "dortha/types/string"
+  autoload :List, "dortha/types/list"
+  autoload :Number, "dortha/types/number"
+  autoload :Variable, "dortha/types/variable"
 
   # This is the main exec for Dortha. This should get called weather we
   # are invoking Dortha from the command line after insalling as a gem or 
