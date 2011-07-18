@@ -14,7 +14,7 @@ class NumberTest < Test::Unit::TestCase
   
   def test_bad_number
     assert_raise(ArgumentError) do
-      notValid = @test = Dortha::Number.new("Foo")
+      notValid = Dortha::Number.new("Foo")
     end
   end
 end

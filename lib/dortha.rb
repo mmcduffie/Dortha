@@ -13,6 +13,7 @@ module Dortha
   autoload :List, "dortha/types/list"
   autoload :Number, "dortha/types/number"
   autoload :Variable, "dortha/types/variable"
+  autoload :Keyword, "dortha/types/keyword"
 
   # This is the main exec for Dortha. This should get called weather we
   # are invoking Dortha from the command line after insalling as a gem or 

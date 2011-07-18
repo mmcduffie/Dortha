@@ -12,5 +12,6 @@ module Dortha
     # numbers, keywords, or variable symbols, but the interpreter will decide
     # that when it reads each token.
     attr_accessor :value
+	attr_accessor :line_number
   end
 end
