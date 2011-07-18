@@ -35,6 +35,20 @@ module Dortha
       # it should reflect the total number of lines in the source file.
       attr_accessor :line_count
 
+      # The build_sentences method looks for periods at the end of lines. If one doesn't
+      # exist on that line, it looks at subsequent lines to see if they have periods at the
+      # end. When it finally finds a line that ends in a period, it takes the content of all
+      # of the lines before the period at makes them into one line. If it reaches the end of
+      # the file and finds no period, it raises an exception.
+      def build_sentences
+        # MY IDEA FOR THIS ALGORITHM:
+        # Step 1 - find the last line of the file that isn't empty. If thier isn't a period
+        # at the end, throw an exception.
+        # Step 2 - loop through the file backwards looking for lines that don't end in a period.
+        # When you find one, push it onto the line above it.
+        # Step 3 - repeat this process until no lines that don't end in a period are found.
+      end
+      
       # strip_and_add_tokens is a small but important factor in the work that the lex
       # method does. it is responsible for removing parts of the original strings from
       # each line in the source file, converting them into tokens, and then pushing them

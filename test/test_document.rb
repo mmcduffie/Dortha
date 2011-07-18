@@ -25,6 +25,16 @@ class DocumentTest < Test::Unit::TestCase
     assert_equal ["test1", "test2", "test3"], test_array, "the lexed document is not what we expected."
   end
   
+  def test_build_sentences
+    test_array = [nil,"test1 test2 test3.","test4 test5 test6 test7","test8 test9."]
+    @document = Dortha::Document.new(test_array)
+    def @document.proxy_build_sentences
+      build_sentences
+    end
+    @document.proxy_build_sentences
+    assert_equal [nil,"test1 test2 test3.","test4 test5 test6 test7 test8 test9."], test_array
+  end
+  
   def test_add_token
     @document = Dortha::Document.new([[nil],[]])
     def @document.proxy_add_token(*args)
