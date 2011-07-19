@@ -3,7 +3,7 @@ require 'helper'
 class DocumentTest < Test::Unit::TestCase
   
   def setup
-    test_array = [nil,"  test1 nexttTest1","test2 \"nextTest2\"","test3 nextTest3"] # Notice leading spaces. Also notice first element is nil.
+    test_array = [nil,"  test1 nexttTest1.","test2 \"nextTest2\".","test3 nextTest3."] # Notice leading spaces. Also notice first element is nil.
     @document = Dortha::Document.new(test_array)
   end
   
@@ -26,14 +26,31 @@ class DocumentTest < Test::Unit::TestCase
   end
   
   def test_build_sentences
-    test_array = [nil,"test1 test2 test3.","test4 test5 test6 test7","test8 test9."]
+    test_array = [nil,"test1 test2 test3.","test4 test5","test6 test7","test8 test9","test10 test11."]
     @document = Dortha::Document.new(test_array)
     def @document.proxy_build_sentences
       build_sentences
     end
     @document.proxy_build_sentences
-    assert_equal [nil,"test1 test2 test3.","test4 test5 test6 test7 test8 test9."], test_array
+    assert_equal [nil,"test1 test2 test3.","test4 test5 test6 test7 test8 test9 test10 test11."], @document
+	test_array = [nil,"test1 test2","test3 test4."]
+    @document = Dortha::Document.new(test_array)
+	def @document.proxy_build_sentences
+      build_sentences
+    end
+	@document.proxy_build_sentences
+	assert_equal [nil,"test1 test2 test3 test4."], @document
   end
+  
+  #def test_all_lines_have_periods?
+  #  test_array = [nil,"test1 test2.","test3 test4","test5 test6."]
+  #  @document = Dortha::Document.new(test_array)
+  #  def @document.proxy_all_lines_have_periods?
+  #    all_lines_have_periods?
+  #  end
+  #  test = @document.proxy_all_lines_have_periods?
+  #  assert_equal false, test, "Since our document contains a line with no period at the end, this should return false."
+  #end
   
   def test_add_token
     @document = Dortha::Document.new([[nil],[]])
