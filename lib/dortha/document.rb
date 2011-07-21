@@ -46,6 +46,7 @@ module Dortha
       # the file and finds no period, it raises an exception.
       def build_sentences
         if all_lines_have_periods?
+          remove_periods
           return
         else
           fix_lines_without_periods
@@ -67,6 +68,12 @@ module Dortha
         line_to_grab = self.index { |line| line.match(/[^\.]$/) } + 1
         self[line_to_grab - 1] << " " << self[line_to_grab]
         self.delete_at(line_to_grab)
+      end
+      
+      # The remove_periods method does what it says, removing all periods from the document now that
+      # they are no longer of use to the lexer.
+      def remove_periods
+        self.each {|string| string.delete!(".") }
       end
       
       # strip_and_add_tokens is a small but important factor in the work that the lex
