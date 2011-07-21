@@ -34,4 +34,10 @@ class DocumentTest < Test::Unit::TestCase
       notValid = @document.lex
     end
   end
+  
+  def test_split_sentences
+    test_array = ["test1. test2.","test3."]
+    @document = Dortha::Document.new(test_array)
+	@document.split_sentences
+  end
 end

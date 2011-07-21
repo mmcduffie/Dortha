@@ -14,7 +14,7 @@ module Dortha
     def lex
       check_for_ending_period
       build_sentences
-      self.map! {|line| line = [line] }
+      self.map! { |line| line = [line] }
       self.each_with_index do |line,line_number|
         line_string = line[0]
         line_string.lstrip!
@@ -26,6 +26,10 @@ module Dortha
       end
     end
     
+	def split_sentences
+	  self.map! { |line| line.split(".") }.inspect
+	end
+	
     private
     
       # line_count is incremented by the lexer as it converts lines to token objects.
@@ -69,7 +73,7 @@ module Dortha
         self[line_to_grab - 1] << " " << self[line_to_grab]
         self.delete_at(line_to_grab)
       end
-      
+	  
       # The remove_periods method does what it says, removing all periods from the document now that
       # they are no longer of use to the lexer.
       def remove_periods
