@@ -12,6 +12,7 @@ module Dortha
     # The lex method is a lexer that takes all of the lines in the source file and 
     # converts each word into a Token object.
     def lex
+      check_for_ending_period
       build_sentences
       self.map! {|line| line = [line] }
       self.each_with_index do |line,line_number|
@@ -30,47 +31,42 @@ module Dortha
       # line_count is incremented by the lexer as it converts lines to token objects.
       # it should reflect the total number of lines in the source file.
       attr_accessor :line_count
-
+      
+      # The check_for_ending_period method is used by build_sentences to find if a program ends
+      # with a period.
+      def check_for_ending_period
+        error = "No period found at the end of the last sentence. Every Dortha program must end with a period."
+        raise error unless self.last.match(/\.$/)
+      end
+      
       # The build_sentences method looks for periods at the end of lines. If one doesn't
       # exist on that line, it looks at subsequent lines to see if they have periods at the
       # end. When it finally finds a line that ends in a period, it takes the content of all
       # of the lines before the period at makes them into one line. If it reaches the end of
       # the file and finds no period, it raises an exception.
       def build_sentences
-        check_for_ending_period
         if all_lines_have_periods?
           return
         else
-          find_line_without_period
+          fix_lines_without_periods
         end
         build_sentences
       end
-
-      # The check_for_ending_period method is used by build_sentences to find if a program ends
-      # with a period.
-      def check_for_ending_period
-	    error = "No period found at the end of the last sentence. Every Dortha program must end with a period."
-        raise error unless self.last[self.last.length - 1] == 46
-      end
       
+      # The all_lines_have_periods? method is used as a base case in the build_sentences function
+      # and returns true once all lines have ending periods.
       def all_lines_have_periods?
-        does_not_have = true
-        self.each_with_index do |line,index|
-          unless self[index].include?(".")
-            does_not_have = false
-          end
-        end
-        return does_not_have
+        self.all? { |line| line.match(/\.$/) }
       end
       
-      def find_line_without_period
-        self.each_with_index do |line,index|
-          unless self[index].include?(".")
-            self[index] << " " << self[index + 1]
-            self.delete_at(index + 1)
-            return
-          end
-        end
+      # The fix_lines_without_periods method finds the first line with no period on the end, grabs
+      # the line after it, and adds that line to the end of the line before it. Eventualy, once the
+      # build_sentences method calls this method enough times, there will be no lines that don't end
+      # with a period.
+      def fix_lines_without_periods
+        line_to_grab = self.index { |line| line.match(/[^\.]$/) } + 1
+        self[line_to_grab - 1] << " " << self[line_to_grab]
+        self.delete_at(line_to_grab)
       end
       
       # strip_and_add_tokens is a small but important factor in the work that the lex

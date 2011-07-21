@@ -19,26 +19,34 @@ class DocumentTest < Test::Unit::TestCase
   def test_build_sentences
     test_array = ["test1 test2 test3.","test4 test5","test6 test7","test8 test9","test10 test11."]
     @document = Dortha::Document.new(test_array)
-    def @document.proxy_build_sentences
-      build_sentences
-    end
-    @document.proxy_build_sentences
-    assert_equal ["test1 test2 test3.","test4 test5 test6 test7 test8 test9 test10 test11."], @document
-	test_array = ["test1 test2","test3 test4."]
-    @document = Dortha::Document.new(test_array)
-	def @document.proxy_build_sentences
-      build_sentences
-    end
-	@document.proxy_build_sentences
-	assert_equal ["test1 test2 test3 test4."], @document
+    @document.lex
+    test = @document.each { |array| array.map! {|object| object.value } }
+    assert_equal [["test1", "test2", "test3."],["test4", "test5", "test6", "test7", "test8", "test9", "test10", "test11."]], test
   end
   
   def test_check_for_ending_period
     test_array = ["test1","test2"]
     @document = Dortha::Document.new(test_array)
-	assert_raise(RuntimeError) do
+    assert_raise(RuntimeError) do
       notValid = @document.lex
     end
+  end
+  
+  def test_all_lines_have_periods?
+    test_array = ["test1.","test2."]
+    @document = Dortha::Document.new(test_array)
+    def @document.proxy_all_lines_have_periods?
+      all_lines_have_periods?
+    end
+    test = @document.proxy_all_lines_have_periods?
+    assert_equal true, test, "When all lines have periods, this should return true."
+    test_array = ["test1","test2."]
+    @document = Dortha::Document.new(test_array)
+    def @document.proxy_all_lines_have_periods?
+      all_lines_have_periods?
+    end
+    test = @document.proxy_all_lines_have_periods?
+    assert_equal false, test, "When all lines don't have periods, this should return false."
   end
   
   def test_add_token
