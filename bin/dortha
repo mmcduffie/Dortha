@@ -9,7 +9,7 @@ end
 source_file = []
 
 ARGF.each_line do |line|
-  source_file[ARGF.lineno] = line
+  source_file[ARGF.lineno - 1] = line
 end
 
 Dortha.execute(source_file)

@@ -6,9 +6,6 @@ module Dortha
     # super in our initializer for it to create an Array with our data.
     def initialize(source_file)
       super
-      unless self[0] == nil || self[0] == [nil]
-        self.unshift(nil)
-      end
       @line_count = 0
     end
     
@@ -18,14 +15,12 @@ module Dortha
       build_sentences
       self.map! {|line| line = [line] }
       self.each_with_index do |line,line_number|
-        unless line_number == 0
-          line_string = line[0]
-          line_string.lstrip!
-          until line_string.empty?
-            strip_and_add_tokens(line_string,line_number)
-          end
-          line.shift
+        line_string = line[0]
+        line_string.lstrip!
+        until line_string.empty?
+          strip_and_add_tokens(line_string,line_number)
         end
+        line.shift
         @line_count += 1
       end
     end
@@ -41,59 +36,42 @@ module Dortha
       # end. When it finally finds a line that ends in a period, it takes the content of all
       # of the lines before the period at makes them into one line. If it reaches the end of
       # the file and finds no period, it raises an exception.
-      #def build_sentences
-      #  check_for_ending_period
-      #  if all_lines_have_periods?
-      #    return
-      #  else
-      #    find_line_without_period
-      #  end
-      #  build_sentences
-      #end
       def build_sentences
         check_for_ending_period
-        self.join(" ").scan(/[^\.]+\.|[^\.]+\z/).each {|x| x.lstrip! }
+        if all_lines_have_periods?
+          return
+        else
+          find_line_without_period
+        end
+        build_sentences
       end
 
-      def check_for_ending_period
-        if self.last.match(/\.\z/).nil?
-          raise "No period found at the end of the last sentence."
-        end
-      end
       # The check_for_ending_period method is used by build_sentences to find if a program ends
       # with a period.
-      #def check_for_ending_period
-      #  self.reverse!
-      #  last_character_index = self[0].length - 1
-      #  unless self[0].index(".") == last_character_index
-      #    raise "No period found at the end of the last sentence. Every Dortha program must end with a period."
-      #  end
-      #  self.reverse!
-      #end
+      def check_for_ending_period
+	    error = "No period found at the end of the last sentence. Every Dortha program must end with a period."
+        raise error unless self.last[self.last.length - 1] == 46
+      end
       
-      #def all_lines_have_periods?
-      #  does_not_have = true
-      #  self.each_with_index do |line,index|
-      #    unless self[index].nil?
-      #      unless self[index].include?(".")
-      #        does_not_have = false
-      #      end
-      #    end
-      #  end
-      #  return does_not_have
-      #end
+      def all_lines_have_periods?
+        does_not_have = true
+        self.each_with_index do |line,index|
+          unless self[index].include?(".")
+            does_not_have = false
+          end
+        end
+        return does_not_have
+      end
       
-      #def find_line_without_period
-      #  self.each_with_index do |line,index|
-      #    unless self[index].nil?
-      #      unless self[index].include?(".")
-      #        self[index] << " " << self[index + 1]
-      #        self.delete_at(index + 1)
-      #        return
-      #      end
-      #    end
-      #  end
-      #end
+      def find_line_without_period
+        self.each_with_index do |line,index|
+          unless self[index].include?(".")
+            self[index] << " " << self[index + 1]
+            self.delete_at(index + 1)
+            return
+          end
+        end
+      end
       
       # strip_and_add_tokens is a small but important factor in the work that the lex
       # method does. it is responsible for removing parts of the original strings from
