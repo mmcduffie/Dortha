@@ -2,14 +2,11 @@
 require 'rubygems'
 require 'dortha'
 
+# Throw an exception if no source file given.
 if ARGV.empty?
-  raise "No input file specified. Usage: dortha [source file name]" # Throw an exception if no source file given.
+  raise "No input file specified. Usage: dortha [source file name]"
 end
 
-source_file = []
-
-ARGF.each_line do |line|
-  source_file[ARGF.lineno - 1] = line
-end
+source_file = ARGF.read
 
 Dortha.execute(source_file)
