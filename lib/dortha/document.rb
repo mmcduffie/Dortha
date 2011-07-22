@@ -1,12 +1,12 @@
 module Dortha
   # The Document class represents a Dortha source file, and contains
   # methods that operate on each source file, including the lexer.
-  class Document < Array
+  class Document < String
     # Creates a new Document. Document is a subclass of Array, so we have to call
     # super in our initializer for it to create an Array with our data.
     def initialize(source_file)
-      super
-      @line_count = 0
+	  source_file.gsub!(/(\n|\r)/,"")
+	  super(source_file)
     end
     
     # The lex method is a lexer that takes all of the lines in the source file and 
@@ -14,22 +14,15 @@ module Dortha
     def lex
       check_for_ending_period
       build_sentences
-      self.map! { |line| line = [line] }
       self.each_with_index do |line,line_number|
         line_string = line[0]
-        line_string.lstrip!
         until line_string.empty?
           strip_and_add_tokens(line_string,line_number)
         end
         line.shift
-        @line_count += 1
       end
     end
     
-	def split_sentences
-	  self.map! { |line| line.split(".") }.inspect
-	end
-	
     private
     
       # line_count is incremented by the lexer as it converts lines to token objects.
@@ -40,7 +33,7 @@ module Dortha
       # with a period.
       def check_for_ending_period
         error = "No period found at the end of the last sentence. Every Dortha program must end with a period."
-        raise error unless self.last.match(/\.$/)
+        raise error unless self.match(/\.$/)
       end
       
       # The build_sentences method looks for periods at the end of lines. If one doesn't

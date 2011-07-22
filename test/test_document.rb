@@ -3,7 +3,7 @@ require 'helper'
 class DocumentTest < Test::Unit::TestCase
   
   def setup
-    test_array = ["  test1 nexttTest1.","test2 \"nextTest2\".","test3 nextTest3."]
+    test_array = "  test1 nexttTest1.\ntest2 \"nextTest2\".\ntest3 nextTest3."
     @document = Dortha::Document.new(test_array)
   end
   
@@ -20,7 +20,7 @@ class DocumentTest < Test::Unit::TestCase
   end
   
   def test_build_sentences
-    test_array = ["test1 test2 test3.","test4 test5","test6 test7","test8 test9","test10 test11."]
+    test_array = "test1 test2 test3.\ntest4 test5\ntest6 test7\ntest8 test9\ntest10 test11."
     @document = Dortha::Document.new(test_array)
     @document.lex
     test = @document.each { |array| array.map! {|object| object.value } }
@@ -33,11 +33,5 @@ class DocumentTest < Test::Unit::TestCase
     assert_raise(RuntimeError) do
       notValid = @document.lex
     end
-  end
-  
-  def test_split_sentences
-    test_array = ["test1. test2.","test3."]
-    @document = Dortha::Document.new(test_array)
-	@document.split_sentences
   end
 end
