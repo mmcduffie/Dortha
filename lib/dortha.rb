@@ -7,7 +7,7 @@ module Dortha
   
   autoload :Document, "dortha/document"
   autoload :Program, "dortha/program"
-  autoload :Line, "dortha/line"
+  autoload :Sentence, "dortha/sentence"
   autoload :Token, "dortha/token"
   autoload :String, "dortha/types/string"
   autoload :List, "dortha/types/list"

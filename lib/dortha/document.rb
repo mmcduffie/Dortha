@@ -14,6 +14,7 @@ module Dortha
     def lex
       remove_leading_whitespace
       compact_remaining_whitespace
+      add_sentence_objects
     end
     
     # The remove_whitespace method deletes leading whitespace from sentences.
@@ -26,5 +27,25 @@ module Dortha
     def compact_remaining_whitespace
       self.map! { |sentence| sentence = sentence.gsub(/\s{2,}/," ") }
     end
+    
+    # The add_sentence_objects method is used to seed our document with Sentence objects,
+    # which are Arrays that we can add Token objects to later.
+    def add_sentence_objects
+      length = self.length
+      position = 0
+      length.times do
+        self.insert(position,Dortha::Sentence.new)
+        position += 2
+      end
+      puts self.inspect
+    end
+	
+	def strip_sentences
+	  self.each do |sentence|
+	    if sentence.match(/".*"/)
+		  puts sentence.match(/".*"/)
+		end
+	  end
+	end
   end
 end

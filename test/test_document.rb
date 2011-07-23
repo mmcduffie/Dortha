@@ -10,4 +10,8 @@ class DocumentTest < Test::Unit::TestCase
   def test_lex
     @document.lex
   end
+  
+  def test_strip_sentences
+    @document.strip_sentences
+  end
 end
