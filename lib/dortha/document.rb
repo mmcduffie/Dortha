@@ -37,13 +37,12 @@ module Dortha
         self.insert(position,Dortha::Sentence.new)
         position += 2
       end
-      puts self.inspect
     end
 	
 	def strip_sentences
 	  self.each do |sentence|
-	    if sentence.match(/".*"/)
-		  puts sentence.match(/".*"/)
+	    if sentence =~ /(".*")/
+		  quoted_string = $1
 		end
 	  end
 	end
