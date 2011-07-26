@@ -10,4 +10,5 @@ Gem::Specification.new do |spec|
   spec.files = Dir['README','LICENSE','Rakefile','bin/dortha','lib/**/*.rb','test/**/*.rb']
   spec.executables << 'dortha'
   spec.add_dependency('rake')
+  spec.add_dependency('mocha')
 end
