@@ -7,11 +7,9 @@ module Dortha
   class Number
     # When we create a new Number, it attempts to convert the value provided
     # to a Float. If it can't Ruby will raise an exception.
-    def initialize(value=nil,line_number=nil)
+    def initialize(value=nil)
       @value = Float(value)
-      @line_number = line_number
     end
     attr_accessor :value
-    attr_accessor :line_number
   end
 end

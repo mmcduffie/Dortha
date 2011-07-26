@@ -19,6 +19,11 @@ module Dortha
       end
     end
     
+	def convert_tokens
+	  detect_keywords
+	  detect_number_types
+	end
+	
     # The detect_keywords method scans a Sentence of tokens for Tokens that can
     # be turned into Keywords. If it finds them, in converts them to Keyword type
     # objects.
