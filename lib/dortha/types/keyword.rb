@@ -7,7 +7,7 @@ module Dortha
   
     # The KEY_WORDS constant should be a globaly unique list of language 
     # keywords the system understands.
-    KEY_WORDS = ["create","method","class"]
+    KEY_WORDS = ["create","method","class","variable"]
     
     # If a new Keyword object is created and it's value does not match one
     # of the language keywords, a RuntimeError will be raised.

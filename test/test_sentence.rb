@@ -6,6 +6,14 @@ end
 
 class SentenceTest < Test::Unit::TestCase
 
+  def setup
+    @sentence = Dortha::Sentence.new([Dortha::Keyword.new("create"), Dortha::Keyword.new("variable")])
+  end
+
+  def test_interpret
+    @sentence.interpret
+  end
+ 
   def test_value?
     object1 = MockToken.new
     object1.value = "foo"
@@ -39,5 +47,13 @@ class SentenceTest < Test::Unit::TestCase
     sentence.detect_keywords
     assert_equal Dortha::Keyword, sentence[0].class, "Objects created should be of class 'Keyword'."
     assert_equal MockToken, sentence[1].class, "Others should be ignored."
+  end
+  
+  def test_create?
+    random_object = MockToken.new
+	random_object.value = "foo"
+    sentence = Dortha::Sentence.new([Dortha::Keyword.new("create"),random_object])
+	test = sentence.create?
+	assert_equal true, test, "If first word in sentence is 'create' then the sentence creates somthing."
   end
 end

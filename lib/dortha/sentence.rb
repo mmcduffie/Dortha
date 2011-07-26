@@ -19,9 +19,12 @@ module Dortha
       end
     end
     
-	def convert_tokens
+	def interpret
 	  detect_keywords
 	  detect_number_types
+	  if self.create?
+	    create_objects
+	  end
 	end
 	
     # The detect_keywords method scans a Sentence of tokens for Tokens that can
@@ -41,5 +44,17 @@ module Dortha
         token = Dortha::Number.new(token.value) rescue token = token
       end
     end
+	
+	def create?
+	  return true if self[0].class == Dortha::Keyword && self[0].value == "create"
+	end
+	
+	def create_objects
+	  if self[1].class == Dortha::Keyword && self[1].value == "variable"
+	  
+	  else
+	    raise "The create keyword must be followed by 'variable', 'method', 'class', or 'list.'"
+      end
+	end
   end
 end

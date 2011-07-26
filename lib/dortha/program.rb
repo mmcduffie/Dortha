@@ -11,9 +11,9 @@ module Dortha
     # themselves arrays that contain Token and String objects.
     attr_accessor :value
 	
-	def convert_objects
+	def interpret
 	  self.map! do |sentence| 
-        sentence.convert_tokens
+        sentence.interpret
       end
 	end
 

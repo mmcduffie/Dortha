@@ -1,9 +1,5 @@
 require 'helper'
 
-class MockToken
-  attr_accessor :value
-end
-
 class ProgramTest < Test::Unit::TestCase
 
   def setup
@@ -13,8 +9,8 @@ class ProgramTest < Test::Unit::TestCase
     @program = Dortha::Program.new(document)
   end
   
-  def test_convert_tokens
-    @program.convert_objects
-	puts @program.inspect
+  def test_interpret
+    @program.interpret
+	# Not sure what to do here...
   end
 end
