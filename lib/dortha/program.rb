@@ -10,12 +10,12 @@ module Dortha
     # Value represents the code of our program as an array of lines that are
     # themselves arrays that contain Token and String objects.
     attr_accessor :value
-	
-	def interpret
-	  self.map! do |sentence| 
+    
+    def interpret
+      self.map! do |sentence| 
         sentence.interpret
       end
-	end
+    end
 
   end
 end

@@ -51,9 +51,9 @@ class SentenceTest < Test::Unit::TestCase
   
   def test_create?
     random_object = MockToken.new
-	random_object.value = "foo"
+    random_object.value = "foo"
     sentence = Dortha::Sentence.new([Dortha::Keyword.new("create"),random_object])
-	test = sentence.create?
-	assert_equal true, test, "If first word in sentence is 'create' then the sentence creates somthing."
+    test = sentence.create?
+    assert_equal true, test, "If first word in sentence is 'create' then the sentence creates somthing."
   end
 end
