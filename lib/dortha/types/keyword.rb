@@ -13,7 +13,7 @@ module Dortha
     # of the language keywords, a RuntimeError will be raised.
     def initialize(value=nil,line_number=nil)
       unless KEY_WORDS.include?(value)
-        raise "#{value} is not a language keyword."
+        raise Dortha::InternalError, "#{value} is not a language keyword."
       end
       @value = value
       @line_number = line_number

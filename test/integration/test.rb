@@ -10,9 +10,10 @@ class IntegrationTest < Test::Unit::TestCase
     program
     document = Dortha::Document.new(program)
     document.lex
-    program = Dortha::Program.new(document)
-    program.interpret
-    puts program.inspect
+    puts document.inspect
+    #program = Dortha::Program.new(document)
+    #program.interpret
+    #puts program.inspect
   end
 
 end

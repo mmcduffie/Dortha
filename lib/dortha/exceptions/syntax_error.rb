@@ -1,0 +1,1 @@
+module Dortha  class SyntaxError < RuntimeError; endend

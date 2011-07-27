@@ -5,6 +5,9 @@ module Dortha
     # Creates a new Document. To create a new Document you need to 
     # provide the initalizer with a string.
     def initialize(source_file)
+      unless source_file[-1] == 46
+        raise Dortha::SyntaxError, "Dortha programs must end with a period."
+      end
       code = source_file.gsub!(/(\n|\r)/,"").split(".")
       super(code)
       @temp_sentence_holder = []

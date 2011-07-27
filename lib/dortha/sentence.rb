@@ -32,7 +32,7 @@ module Dortha
     # objects.
     def detect_keywords
       self.map! do |token|
-        token = Dortha::Keyword.new(token.value) rescue token = token
+        token = Dortha::Keyword.new(token.value) rescue token
       end
     end
     
@@ -41,7 +41,7 @@ module Dortha
     # objects.
     def detect_number_types
       self.map! do |token|
-        token = Dortha::Number.new(token.value) rescue token = token
+        token = Dortha::Number.new(token.value) rescue token
       end
     end
     
@@ -53,7 +53,7 @@ module Dortha
       if self[1].value == "variable"
         
       else
-        raise "The create keyword must be followed by 'variable', 'method', 'class', or 'list.'"
+        raise Dortha::SyntaxError, "The create keyword must be followed by 'variable', 'method', 'class', or 'list.'"
       end
     end
   end

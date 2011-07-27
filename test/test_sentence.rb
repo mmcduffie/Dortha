@@ -59,4 +59,13 @@ class SentenceTest < Test::Unit::TestCase
     test = sentence.create?
     assert_equal nil, test, "If first word in sentence is not 'create' then the sentence creates nothing."
   end
+  
+  def test_create_objects
+    assert_raise(Dortha::SyntaxError) do
+      random_object = mock
+      random_object.stubs(:value).returns("bar")
+      sentence = Dortha::Sentence.new([Dortha::Keyword.new("create"),random_object])
+      test = sentence.create_objects
+    end
+  end
 end

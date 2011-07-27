@@ -4,7 +4,7 @@ require 'dortha'
 
 # Throw an exception if no source file given.
 if ARGV.empty?
-  raise "No input file specified. Usage: dortha [source file name]"
+  raise Dortha::InputError, "No input file specified. Usage: dortha [source file name]"
 end
 
 source_file = ARGF.read
