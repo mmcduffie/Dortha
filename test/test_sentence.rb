@@ -11,7 +11,9 @@ class SentenceTest < Test::Unit::TestCase
   end
 
   def test_interpret
-    @sentence.interpret
+    object = mock
+    object.stubs(:scope).returns(:global)
+    @sentence.interpret(object)
   end
  
   def test_value?
@@ -65,13 +67,18 @@ class SentenceTest < Test::Unit::TestCase
       random_object = mock
       random_object.stubs(:value).returns("bar")
       sentence = Dortha::Sentence.new([Dortha::Keyword.new("create"),random_object])
-      test = sentence.interpret
+      object = mock
+      object.stubs(:scope).returns(:global)
+      test = sentence.interpret(object)
     end
     object1 = mock
     object1.stubs(:value).returns("create")
     object2 = mock
     object2.stubs(:value).returns("variable")
     sentence = Dortha::Sentence.new([object1,object2,Dortha::String.new("foo")])
-    sentence.interpret
+    program = mock
+    program.stubs(:scope).returns(:global)
+    program.stubs(:global_variable_list).returns(Hash.new)
+    sentence.interpret(program)
   end
 end

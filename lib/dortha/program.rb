@@ -4,6 +4,8 @@ module Dortha
   class Program < Array
     def initialize(value)
       @value = value
+      @global_variable_list = Hash.new
+      @scope = :global
       super(value)
     end
     
@@ -11,9 +13,18 @@ module Dortha
     # themselves arrays that contain Token and String objects.
     attr_accessor :value
     
+    # global_variable_table holds global variable names and thier values. Variables
+    # for other scopes like methods and classes will be handled by the classes and
+    # methods themselves.
+    attr_accessor :global_variable_list
+    
+    attr_accessor :scope
+    
+    # The interpret method of Program really just calls the interpret method
+    # on each sentence.
     def interpret
       self.map! do |sentence| 
-        sentence.interpret
+        sentence.interpret(self)
       end
     end
 

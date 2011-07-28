@@ -6,6 +6,7 @@ module Dortha
   # executed to do actual work.
   class Sentence < Array
   
+    attr_accessor :current_program
     attr_accessor :value
     
     # The 'contains_value?' method searches a sentence and returns true if a object
@@ -19,7 +20,8 @@ module Dortha
       end
     end
     
-    def interpret
+    def interpret(program)
+      @current_program = program
       detect_keywords
       detect_number_types
       if self.create?
@@ -64,7 +66,11 @@ module Dortha
     end
 
     def create_variable
-      puts "some stuff where we create a variable in the correct symbol table and scope."
+      scope = @current_program.scope
+      if scope == :global
+        global_variable_list = @current_program.global_variable_list
+        global_variable_list[self[2]] = nil
+      end
     end
   end
 end
