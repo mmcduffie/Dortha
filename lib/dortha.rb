@@ -24,5 +24,7 @@ module Dortha
   def self.execute(source_file)
     document = Dortha::Document.new(source_file)
     document.lex
+    program = Dortha::Program.new(document)
+    program.interpret
   end
 end

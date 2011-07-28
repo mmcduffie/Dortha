@@ -6,12 +6,9 @@ class IntegrationTest < Test::Unit::TestCase
 
   def test_create_variable
     program = <<-program
-      create variable x. set x equal.
+      create variable x. set x equal to 10.
     program
-    document = Dortha::Document.new(program)
-    document.lex
-    program = Dortha::Program.new(document)
-    program.interpret
+    Dortha.execute(program)
   end
 
 end
