@@ -32,6 +32,12 @@ module Dortha
         else
           raise Dortha::SyntaxError, "The create keyword must be followed by 'variable', 'method', 'class', or 'list.'"
         end
+      elsif self.set?
+        if self.dortha_equal?
+          if self.to?
+            set_variable
+          end
+        end
       end
     end
     
@@ -65,6 +71,24 @@ module Dortha
       return true if self[2].class == Dortha::String
     end
 
+    def set?
+      return true if self[0].value == "set"
+    end
+    
+    def dortha_equal?
+      return true if self[2].value == "equal"
+    end
+    
+    def to?
+      return true if self[3].value == "to"
+    end
+    
+    def set_variable
+      variable_name = self[1]
+      global_variable_list = @current_program.global_variable_list
+      global_variable_list[variable_name] = self[4]
+    end
+    
     def create_variable
       scope = @current_program.scope
       if scope == :global

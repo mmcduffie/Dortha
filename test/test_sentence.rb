@@ -80,5 +80,18 @@ class SentenceTest < Test::Unit::TestCase
     program.stubs(:scope).returns(:global)
     program.stubs(:global_variable_list).returns(Hash.new)
     sentence.interpret(program)
+    object1 = mock
+    object1.stubs(:value).returns("set")
+    object2 = mock
+    object2.stubs(:value).returns("equal")
+    object3 = mock
+    object3.stubs(:value).returns("to")
+    object4 = mock
+    object4.stubs(:value).returns("5")
+    sentence = Dortha::Sentence.new([object1,Dortha::String.new("foo"),object2,object3,object4])
+    program = mock
+    program.stubs(:scope).returns(:global)
+    program.stubs(:global_variable_list).returns(Hash.new)
+    sentence.interpret(program)
   end
 end
