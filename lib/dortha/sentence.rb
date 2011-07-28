@@ -23,7 +23,13 @@ module Dortha
       detect_keywords
       detect_number_types
       if self.create?
-        create_objects
+        if self.variable?
+          if self.string?
+            create_variable
+          end
+        else
+          raise Dortha::SyntaxError, "The create keyword must be followed by 'variable', 'method', 'class', or 'list.'"
+        end
       end
     end
     
@@ -49,12 +55,16 @@ module Dortha
       return true if self[0].value == "create"
     end
     
-    def create_objects
-      if self[1].value == "variable"
-        
-      else
-        raise Dortha::SyntaxError, "The create keyword must be followed by 'variable', 'method', 'class', or 'list.'"
-      end
+    def variable?
+      return true if self[1].value == "variable"
+    end
+    
+    def string?
+      return true if self[2].class == Dortha::String
+    end
+
+    def create_variable
+      puts "some stuff where we create a variable in the correct symbol table and scope."
     end
   end
 end
