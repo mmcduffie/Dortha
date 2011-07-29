@@ -17,7 +17,8 @@ module Dortha
   autoload :SyntaxError, "dortha/exceptions/syntax_error"
   autoload :InputError, "dortha/exceptions/input_error"
   autoload :InternalError, "dortha/exceptions/internal_error"
-
+  autoload :DORTHA_METHODS, "dortha/built_in_methods"
+  
   # This is the main exec for Dortha. This should get called weather we
   # are invoking Dortha from the command line after insalling as a gem or 
   # using Dortha as a required library.
