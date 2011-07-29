@@ -20,13 +20,17 @@ module Dortha
       end
     end
     
+    # The Interpret method is the main interpreter for the entire Dortha implementation.
     def interpret(program)
       @current_program = program
       detect_keywords
       detect_number_types
       if starts_with_keyword?
         method_to_call = match_sentence_signature
-        unless method_to_call == nil
+        if method_to_call == nil
+          message = "\"#{convert_sentence_to_string}\" Starts with a keyword, but does not match any of the allowed sentence forms."
+          raise Dortha::SyntaxError, message
+        else
           send method_to_call
         end
       end
