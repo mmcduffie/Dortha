@@ -8,7 +8,7 @@ module Dortha
       unless source_file.match(/\.\Z/)
         raise Dortha::SyntaxError, "Dortha programs must end with a period."
       end
-      code = source_file.gsub!(/(\n|\r)/,"").split(".")
+      code = source_file.gsub(/(\n|\r)/,"").split(".")
       super(code)
       @temp_sentence_holder = []
     end

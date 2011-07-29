@@ -64,23 +64,6 @@ module Dortha
       method_to_call
     end
     
-    # The set_variable method is used to set the value of already-defined variables.
-    def set_variable
-      variable_name = self[1]
-      global_variable_list = @current_program.global_variable_list
-      global_variable_list[variable_name] = self[4].value
-    end
-    
-    # The create_variable method creates new variables that will later have thier values
-    # set by the set_variable method.
-    def create_variable
-      scope = @current_program.scope
-      if scope == :global
-        global_variable_list = @current_program.global_variable_list
-        global_variable_list[self[2]] = nil
-      end
-    end
-    
     # The convert_sentence_to_string method takes a Dortha sentence and converts it to a
     # string.
     def convert_sentence_to_string
@@ -92,6 +75,29 @@ module Dortha
       temp_array.reverse!.shift
       temp_array.reverse!
       temp_array.to_s
+    end
+    
+    # The set_variable method is used to set the value of already-defined variables.
+    def set_variable
+      variable_name = self[1].value
+      global_variable_list = @current_program.global_variable_list
+      global_variable_list[variable_name] = self[4].value
+    end
+    
+    # The create_variable method creates new variables that will later have thier values
+    # set by the set_variable method.
+    def create_variable
+      scope = @current_program.scope
+      if scope == :global
+        global_variable_list = @current_program.global_variable_list
+        global_variable_list[self[2].value] = nil
+      end
+    end
+    
+    # The show_value_of method prints the value of the given variable to the screen.
+    def show_value_of
+      variable = @current_program.global_variable_list[self[3].value]
+      puts variable
     end
   end
 end
