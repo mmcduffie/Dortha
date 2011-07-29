@@ -9,17 +9,6 @@ module Dortha
     attr_accessor :current_program
     attr_accessor :value
     
-    # The 'contains_value?' method searches a sentence and returns true if a object
-    # with the given value is found.
-    def contains_value?(value_to_find)
-      results = self.select { |object| object.value == value_to_find }
-      if results.empty?
-        return false
-      elsif results.length > 0
-        return true
-      end
-    end
-    
     # The Interpret method is the main interpreter for the entire Dortha implementation.
     def interpret(program)
       @current_program = program
@@ -36,6 +25,8 @@ module Dortha
       end
     end
 
+    private
+    
     # The detect_keywords method scans a Sentence of tokens for Tokens that can
     # be turned into Keywords. If it finds them, in converts them to Keyword type
     # objects.
