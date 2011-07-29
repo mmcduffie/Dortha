@@ -5,7 +5,7 @@ module Dortha
   # converted by methods in this class into objects of other types and then 
   # executed to do actual work.
   class Sentence < Array
-  
+    
     attr_accessor :current_program
     attr_accessor :value
     
@@ -24,23 +24,14 @@ module Dortha
       @current_program = program
       detect_keywords
       detect_number_types
-      if self.create?
-        if self.variable?
-          if self.string?
-            create_variable
-          end
-        else
-          raise Dortha::SyntaxError, "The create keyword must be followed by 'variable', 'method', 'class', or 'list.'"
-        end
-      elsif self.set?
-        if self.dortha_equal?
-          if self.to?
-            set_variable
-          end
+      if starts_with_keyword?
+        method_to_call = match_sentence_signature
+        unless method_to_call == nil
+          send method_to_call
         end
       end
     end
-    
+
     # The detect_keywords method scans a Sentence of tokens for Tokens that can
     # be turned into Keywords. If it finds them, in converts them to Keyword type
     # objects.
@@ -59,42 +50,53 @@ module Dortha
       end
     end
     
-    def create?
-      return true if self[0].value == "create"
+    # The starts_with_keyword? method is used to see if the first word of a sentence 
+    # is a language keyword, like "create," "Method," or "class." If the first word of 
+    # the sentence is a keyword, it should be handled as one of the built-in senctence 
+    # templates that have special meaning in Dortha.
+    def starts_with_keyword?
+      return true if self[0].class == Dortha::Keyword
     end
     
-    def variable?
-      return true if self[1].value == "variable"
+    # The match_sentence_signature method attempts to match a sentance to one of Dortha's
+    # built-in sentence signatures (kind of like a sentence template) and returns the
+    # name of a method to call, if found.    
+    def match_sentence_signature
+      method_to_call = nil
+      Dortha::DORTHA_METHODS.each do |key, value|
+        method_to_call = key if convert_sentence_to_string.match(value)
+      end
+      method_to_call
     end
     
-    def string?
-      return true if self[2].class == Dortha::String
-    end
-
-    def set?
-      return true if self[0].value == "set"
-    end
-    
-    def dortha_equal?
-      return true if self[2].value == "equal"
-    end
-    
-    def to?
-      return true if self[3].value == "to"
-    end
-    
+    # The set_variable method is used to set the value of already-defined variables.
     def set_variable
       variable_name = self[1]
       global_variable_list = @current_program.global_variable_list
-      global_variable_list[variable_name] = self[4]
+      global_variable_list[variable_name] = self[4].value
     end
     
+    # The create_variable method creates new variables that will later have thier values
+    # set by the set_variable method.
     def create_variable
       scope = @current_program.scope
       if scope == :global
         global_variable_list = @current_program.global_variable_list
         global_variable_list[self[2]] = nil
       end
+    end
+    
+    # The convert_sentence_to_string method takes a Dortha sentence and converts it to a
+    # string.
+    def convert_sentence_to_string
+      temp_array = []
+      self.map do |token| 
+        temp_array.push(token.value)
+        temp_array.push(" ")
+      end
+      temp_array.reverse!.shift
+      temp_array.reverse!
+      temp_array.to_s
     end
   end
 end

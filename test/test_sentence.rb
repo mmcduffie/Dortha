@@ -51,26 +51,7 @@ class SentenceTest < Test::Unit::TestCase
     assert_equal Mocha::Mock, sentence[1].class, "Others should be ignored."
   end
   
-  def test_create?
-    random_object = mock
-    random_object.stubs(:value).returns("foo")
-    sentence = Dortha::Sentence.new([Dortha::Keyword.new("create"),random_object])
-    test = sentence.create?
-    assert_equal true, test, "If first word in sentence is 'create' then the sentence creates somthing."
-    sentence.reverse!
-    test = sentence.create?
-    assert_equal nil, test, "If first word in sentence is not 'create' then the sentence creates nothing."
-  end
-  
   def test_create_objects
-    assert_raise(Dortha::SyntaxError) do
-      random_object = mock
-      random_object.stubs(:value).returns("bar")
-      sentence = Dortha::Sentence.new([Dortha::Keyword.new("create"),random_object])
-      object = mock
-      object.stubs(:scope).returns(:global)
-      test = sentence.interpret(object)
-    end
     object1 = mock
     object1.stubs(:value).returns("create")
     object2 = mock
@@ -80,6 +61,8 @@ class SentenceTest < Test::Unit::TestCase
     program.stubs(:scope).returns(:global)
     program.stubs(:global_variable_list).returns(Hash.new)
     sentence.interpret(program)
+    test = {"foo"=>nil}
+    assert_equal test, sentence.current_program.global_variable_list, "This sentence should create a new variable."
     object1 = mock
     object1.stubs(:value).returns("set")
     object2 = mock
@@ -89,9 +72,8 @@ class SentenceTest < Test::Unit::TestCase
     object4 = mock
     object4.stubs(:value).returns("5")
     sentence = Dortha::Sentence.new([object1,Dortha::String.new("foo"),object2,object3,object4])
-    program = mock
-    program.stubs(:scope).returns(:global)
-    program.stubs(:global_variable_list).returns(Hash.new)
     sentence.interpret(program)
+    test = {"foo"=>5.0}
+    assert_equal test, sentence.current_program.global_variable_list, "This sentence should set the variable's value."
   end
 end
