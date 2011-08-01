@@ -22,6 +22,14 @@ module Dortha
         else
           send method_to_call
         end
+      else
+        message = self[0..-2]
+        receiver = self[-1..-1][0]
+        method_to_call = receiver.find_sentence_signature(message)
+        method_signature_regexp = receiver.find_sentence_signature_regexp(method_to_call)
+        argument_indices = find_argument_indices(method_signature_regexp)
+        arguments = get_arguments(argument_indices)
+        receiver.send(method_to_call, arguments)
       end
     end
 
@@ -98,6 +106,28 @@ module Dortha
     def show_value_of
       variable = @current_program.global_variable_list[self[3].value]
       puts variable
+    end
+    
+    # The find_argument_indices looks at a regular expression that represents a dortha
+    # sentence signature and finds which words in the sentence are arguments. Then, it
+    # returns an array with the locations of all arguments in the sentence.
+    def find_argument_indices(regexp)
+      regexp_array = regexp.to_s[7..-2].split(/\s/)
+      argument_index_array = []
+      regexp_array.each_with_index do |word, index|
+        if word == "\\w+"
+          argument_index_array.push(index)
+        end
+      end
+      argument_index_array
+    end
+    
+    # The get_arguments method parses a sentence to pull out the values of it's arguments,
+    # and then returns those in an array.
+    def get_arguments(argument_indices)
+      argument_indices.map! do |index|
+        self[index]
+      end
     end
   end
 end
