@@ -86,14 +86,4 @@ class SentenceTest < Test::Unit::TestCase
     sentence = Dortha::Sentence.new([object1,object2,object3,object4])
     sentence.interpret(program)
   end
-  
-  def test_create_variable
-    program = <<-program
-      create variable x.
-      set x equal to 10.
-      add 5 to x.
-      show value of x.
-    program
-    Dortha.execute(program)
-  end
 end

@@ -14,6 +14,7 @@ module Dortha
   autoload :Number, "dortha/types/number"
   autoload :Variable, "dortha/types/variable"
   autoload :Keyword, "dortha/types/keyword"
+  autoload :Method, "dortha/method"
   autoload :SyntaxError, "dortha/exceptions/syntax_error"
   autoload :InputError, "dortha/exceptions/input_error"
   autoload :InternalError, "dortha/exceptions/internal_error"
