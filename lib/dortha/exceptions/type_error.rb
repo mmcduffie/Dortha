@@ -1,0 +1,1 @@
+module Dortha  class TypeError < RuntimeError; endend

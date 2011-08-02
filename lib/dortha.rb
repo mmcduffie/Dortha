@@ -17,6 +17,7 @@ module Dortha
   autoload :SyntaxError, "dortha/exceptions/syntax_error"
   autoload :InputError, "dortha/exceptions/input_error"
   autoload :InternalError, "dortha/exceptions/internal_error"
+  autoload :TypeError, "dortha/exceptions/type_error"
   autoload :DORTHA_METHODS, "dortha/built_in_methods"
   autoload :Callable, "dortha/types/callable"
   

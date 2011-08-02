@@ -23,20 +23,31 @@ module Dortha
           send method_to_call
         end
       else
-        message = self[0..-2]
-        receiver = self[-1..-1][0]
-        if receiver.class != Dortha::Number || receiver.class != Dortha::String
-          receiver = @current_program.global_variable_list[receiver.value]
-        end
-        method_to_call = receiver.find_sentence_signature(message)
-        method_signature_regexp = receiver.find_sentence_signature_regexp(method_to_call)
-        argument_indices = find_argument_indices(method_signature_regexp)
-        arguments = get_arguments(argument_indices)
-        receiver.send(method_to_call, arguments)
+        call_method
       end
     end
 
     private
+    
+    # The call_method method is called when a sentence that doesn't start with a
+    # keyword is interpreted. The last word in any given sentence is always the
+    # object the method is called on (the 'message'), and the rest of the sentence
+    # is the method (or method signature) that is being called on that object.
+    def call_method
+      scope = @current_program.scope
+      message = self[0..-2]
+      receiver = self[-1..-1][0]
+      if receiver.class != Dortha::Number || receiver.class != Dortha::String
+        if scope == :global
+          receiver = @current_program.global_variable_list[receiver.value]
+        end
+      end
+      method_to_call = receiver.find_sentence_signature(message)
+      method_signature_regexp = receiver.find_sentence_signature_regexp(method_to_call)
+      argument_indices = find_argument_indices(method_signature_regexp)
+      arguments = get_arguments(argument_indices)
+      receiver.send(method_to_call, arguments)
+    end
     
     # The detect_keywords method scans a Sentence of tokens for Tokens that can
     # be turned into Keywords. If it finds them, in converts them to Keyword type

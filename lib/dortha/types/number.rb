@@ -17,6 +17,9 @@ module Dortha
     attr_accessor :value
     
     def add(number)
+      if number[0].class != Dortha::Number
+        raise Dortha::TypeError, "The numbers to add must be Number types."
+      end
       result = self.value + number[0].value
       self.value = result
     end
