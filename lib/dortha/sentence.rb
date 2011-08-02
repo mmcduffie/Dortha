@@ -25,6 +25,9 @@ module Dortha
       else
         message = self[0..-2]
         receiver = self[-1..-1][0]
+        if receiver.class != Dortha::Number || receiver.class != Dortha::String
+          receiver = @current_program.global_variable_list[receiver.value]
+        end
         method_to_call = receiver.find_sentence_signature(message)
         method_signature_regexp = receiver.find_sentence_signature_regexp(method_to_call)
         argument_indices = find_argument_indices(method_signature_regexp)
@@ -89,7 +92,7 @@ module Dortha
     def set_variable
       variable_name = self[1].value
       global_variable_list = @current_program.global_variable_list
-      global_variable_list[variable_name] = self[4].value
+      global_variable_list[variable_name] = self[4]
     end
     
     # The create_variable method creates new variables that will later have thier values
@@ -105,7 +108,7 @@ module Dortha
     # The show_value_of method prints the value of the given variable to the screen.
     def show_value_of
       variable = @current_program.global_variable_list[self[3].value]
-      puts variable
+      puts variable.value
     end
     
     # The find_argument_indices looks at a regular expression that represents a dortha
@@ -115,7 +118,7 @@ module Dortha
       regexp_array = regexp.to_s[7..-2].split(/\s/)
       argument_index_array = []
       regexp_array.each_with_index do |word, index|
-        if word == "\\w+"
+        if word == "\\w+" || word == "\\S+"
           argument_index_array.push(index)
         end
       end

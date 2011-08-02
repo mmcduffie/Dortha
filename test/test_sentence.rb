@@ -49,8 +49,7 @@ class SentenceTest < Test::Unit::TestCase
     object4.stubs(:value).returns("5")
     sentence = Dortha::Sentence.new([object1,Dortha::String.new("foo"),object2,object3,object4])
     sentence.interpret(program)
-    test = {"foo"=>5.0}
-    assert_equal test, sentence.current_program.global_variable_list, "This sentence should set the variable's value."
+    assert_equal 5.0, sentence.current_program.global_variable_list["foo"].value, "This sentence should set the variable's value."
   end
   
   def test_non_keyword
@@ -63,18 +62,28 @@ class SentenceTest < Test::Unit::TestCase
     program.stubs(:scope).returns(:global)
     program.stubs(:global_variable_list).returns(Hash.new)
     sentence.interpret(program)
-    object1 = mock
-    object1.stubs(:value).returns("add")
-    object2 = mock
-    object2.stubs(:value).returns("5")
-    object3 = mock
-    object3.stubs(:value).returns("to")
-    object4 = mock
-    object4.stubs(:value).returns("foo")
-    object4.stubs(:find_sentence_signature).returns(:foo)
-    object4.stubs(:find_sentence_signature_regexp).returns(/add \w+ to/)
-    object4.stubs(:foo).returns("foo")
-    sentence = Dortha::Sentence.new([object1,object2,object3,object4])
-    sentence.interpret(program)
+    #object1 = mock
+    #object1.stubs(:value).returns("add")
+    #object2 = mock
+    #object2.stubs(:value).returns("5")
+    #object3 = mock
+    #object3.stubs(:value).returns("to")
+    #object4 = mock
+    #object4.stubs(:value).returns("foo")
+    #object4.stubs(:find_sentence_signature).returns(:foo)
+    #object4.stubs(:find_sentence_signature_regexp).returns(/add \w+ to/)
+    #object4.stubs(:foo).returns("foo")
+    #sentence = Dortha::Sentence.new([object1,object2,object3,object4])
+    #sentence.interpret(program)
+  end
+  
+  def test_create_variable
+    program = <<-program
+      create variable x.
+      set x equal to 10.
+      add 5 to x.
+      show value of x.
+    program
+    Dortha.execute(program)
   end
 end

@@ -18,6 +18,7 @@ module Dortha
   autoload :InputError, "dortha/exceptions/input_error"
   autoload :InternalError, "dortha/exceptions/internal_error"
   autoload :DORTHA_METHODS, "dortha/built_in_methods"
+  autoload :Callable, "dortha/types/callable"
   
   # This is the main exec for Dortha. This should get called weather we
   # are invoking Dortha from the command line after insalling as a gem or 
