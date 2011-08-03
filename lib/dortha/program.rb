@@ -5,6 +5,7 @@ module Dortha
     def initialize(value)
       @value = value
       @global_variable_list = Hash.new
+      @global_method_list = Hash.new
       @scope = :global
       super(value)
     end
@@ -18,6 +19,7 @@ module Dortha
     # methods themselves.
     attr_accessor :global_variable_list
     
+    attr_accessor :global_method_list
     attr_accessor :scope
     
     # The interpret method of Program really just calls the interpret method

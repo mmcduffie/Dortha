@@ -143,5 +143,17 @@ module Dortha
         self[index]
       end
     end
+    
+    def create_method
+      if @current_program.scope == :global
+        if self[2].class == Dortha::String
+          method_name = self[2].value.to_sym
+        else
+          raise Dortha::TypeError, "Method name must be a String."
+        end
+        @current_program.global_method_list[method_name] = Dortha::Method.new(method_name)
+        @current_program.scope = method_name
+      end
+    end
   end
 end
